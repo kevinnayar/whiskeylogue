@@ -1,5 +1,5 @@
 import firebase from '../../config/firebase';
-import { TypeUserCredentials, TypeNewUser, TypeUserDef } from '../../types/baseTypes';
+import { TypeUserCredentials, TypeNewUser, TypeUserHydrated } from '../../types/baseTypes';
 import {
   AUTH_LOGIN_REQUESTED,
   AUTH_LOGIN_SUCCEEDED,
@@ -35,36 +35,27 @@ async function handleLogOutAsync(): Promise<void> {
 }
 
 async function handleSignUpAsync(newUser: TypeNewUser): Promise<firebase.auth.UserCredential> {
-  const { firstName, lastName, email, password } = newUser;
+  const { firstName, lastName, displayName, email, password } = newUser;
   const credential: firebase.auth.UserCredential = await firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then((userCredential: firebase.auth.UserCredential) => {
-      const userGuid: string = userCredential.user ? userCredential.user.uid : `USER_UID_ERROR_${new Date().getTime()}`;
-      // const orgGuid: string = 'Ax3PtCz0NG9NoaJSUPYU'; // Acme Corp
-      const orgGuid: string = 'UAm22Iq6cbCfwAcwEZDl'; // XYZ Org
-      const userInfo: TypeUserDef = {
+      const userId: string = userCredential.user ? userCredential.user.uid : `USER_UID_ERROR_${new Date().getTime()}`;
+      const userInfo: TypeUserHydrated = {
         firstName,
         lastName,
+        displayName,
         email: email.toLowerCase(),
-        userGuid,
-        orgGuid,
-        role: 'BASIC',
+        userId,
+        roleType: 'BASIC',
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
       };
 
       firebase
         .firestore()
         .collection('users')
-        .doc(userGuid)
+        .doc(userId)
         .set(userInfo);
-
-      firebase
-        .firestore()
-        .collection('orgs')
-        .doc(orgGuid)
-        .update({
-          userGuids: firebase.firestore.FieldValue.arrayUnion(userGuid),
-        });
 
       return userCredential;
     });

@@ -7,15 +7,16 @@ import { routes, routesValues } from '../../../routes';
 import { logIn } from '../../../store/auth/authActions';
 import { getRegExEmail } from '../../../utils/baseUtils';
 
-import StyledPage from '../../components-styled/StyledPage/StyledPage';
+import Page from '../../components-core/Page/Page';
+import BackgroundImages from '../../components-shared/BackgroundImages/BackgroundImages';
 import {
-  StyledForm,
-  StyledFormDiv,
-  StyledFormLabel,
-  StyledFormInput,
-  StyledFormErrorDiv,
-  StyledFormSubmit,
-} from '../../components-styled/StyledFormElements/StyledFormElements';
+  Form,
+  FormDiv,
+  FormLabel,
+  FormInput,
+  FormErrorDiv,
+  FormSubmit,
+} from '../../components-shared/FormElements/FormElements';
 import AlertMessage from '../../components-shared/AlertMessage/AlertMessage';
 
 import { TypeAppState, TypeApiXferStatus, TypeUserCredentials } from '../../../types/baseTypes';
@@ -52,11 +53,12 @@ function LogInPage(props: TypeLogInProps) {
   };
 
   return (
-    <StyledPage>
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <StyledFormDiv>
-          <StyledFormLabel>Email</StyledFormLabel>
-          <StyledFormInput
+    <Page>
+      {/* <BackgroundImages interval={3000} /> */}
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <FormDiv>
+          <FormLabel>Email</FormLabel>
+          <FormInput
             tabIndex={1}
             type="text"
             name="email"
@@ -65,35 +67,35 @@ function LogInPage(props: TypeLogInProps) {
               pattern: getRegExEmail(),
             })}
           />
-          <StyledFormErrorDiv>
+          <FormErrorDiv>
             {errors.email && errors.email.type && errors.email.type === 'required' && (
               <AlertMessage alertType="error" text="Email is required." />
             )}
             {errors.email && errors.email.type && errors.email.type === 'pattern' && (
               <AlertMessage alertType="error" text="Email must be in a proper email format." />
             )}
-          </StyledFormErrorDiv>
-        </StyledFormDiv>
+          </FormErrorDiv>
+        </FormDiv>
 
-        <StyledFormDiv>
-          <StyledFormLabel>Password</StyledFormLabel>
-          <StyledFormInput tabIndex={2} type="password" name="password" ref={register({ required: true })} />
-          <StyledFormErrorDiv className="form-error">
+        <FormDiv>
+          <FormLabel>Password</FormLabel>
+          <FormInput tabIndex={2} type="password" name="password" ref={register({ required: true })} />
+          <FormErrorDiv className="form-error">
             {errors.password && errors.password.type && errors.password.type === 'required' && (
               <AlertMessage alertType="error" text="Password is required." />
             )}
-          </StyledFormErrorDiv>
-        </StyledFormDiv>
+          </FormErrorDiv>
+        </FormDiv>
 
-        <StyledFormErrorDiv className="form-error">
+        <FormErrorDiv className="form-error">
           {props.logInXferStatus.failed && props.logInXferStatus.error && (
             <AlertMessage alertType="error" text={props.logInXferStatus.error} />
           )}
-        </StyledFormErrorDiv>
+        </FormErrorDiv>
 
-        <StyledFormSubmit tabIndex={3} type="submit" />
-      </StyledForm>
-    </StyledPage>
+        <FormSubmit tabIndex={3} type="submit" />
+      </Form>
+    </Page>
   );
 }
 

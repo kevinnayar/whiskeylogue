@@ -1,11 +1,11 @@
 import * as React from 'react';
-import StyledPage from '../../components-styled/StyledPage/StyledPage';
+import Page from '../../components-core/Page/Page';
 
 export default function HomePage() {
   return (
-    <StyledPage>
+    <Page>
       <h1>Welcome</h1>
-    </StyledPage>
+    </Page>
   );
 }
 

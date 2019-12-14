@@ -1,13 +1,10 @@
 import { TypeAuthReducer, TypeAuthDispatch } from './reducerAuthTypes';
-import { TypeOrgReducer, TypeOrgDispatch } from './reducerOrgTypes';
-
-export type TypeNullOrString = null | string;
 
 export type TypeApiXferStatus = {
   requested: boolean;
   succeeded: boolean;
   failed: boolean;
-  error: TypeNullOrString;
+  error: null | string;
 };
 
 export type TypeUserCredentials = {
@@ -15,27 +12,21 @@ export type TypeUserCredentials = {
   password: string;
 };
 
-export type TypeUserInfo = {
+export type TypeUserBase = {
   firstName: string;
   lastName: string;
-};
-
-export type TypeNewUser = TypeUserCredentials & TypeUserInfo;
-
-export type TypeUserRoleTypes = 'BASIC' | 'ADVANCED' | 'ADMIN' | 'SUPER_ADMIN';
-
-export type TypeUserDef = {
-  firstName: string;
-  lastName: string;
+  displayName: string;
   email: string;
-  userGuid: string;
-  orgGuid: string;
-  role: TypeUserRoleTypes;
 };
 
-export type TypeOrgDef = {
-  orgName: string;
-  userGuids?: string[];
+export type TypeNewUser = TypeUserCredentials & TypeUserBase;
+
+export type TypeUserRoleTypes = 'BASIC' | 'PREMIUM' | 'SUPER_ADMIN';
+
+export type TypeUserHydrated = TypeUserBase & {
+  userId: string;
+  roleType: TypeUserRoleTypes;
+  createdAt: firebase.firestore.Timestamp;
 };
 
 export type TypeBaseDispatch = {
@@ -45,10 +36,8 @@ export type TypeBaseDispatch = {
 
 export type TypeAppState = {
   auth: TypeAuthReducer;
-  org: TypeOrgReducer;
 };
 
 export type TypeAppDispatch = 
   | TypeAuthDispatch
-  | TypeOrgDispatch
 ;

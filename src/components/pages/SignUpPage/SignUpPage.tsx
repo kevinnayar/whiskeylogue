@@ -4,22 +4,22 @@ import useForm from 'react-hook-form';
 import { signUp } from '../../../store/auth/authActions';
 import { getRegExEmail } from '../../../utils/baseUtils';
 
-import StyledPage from '../../components-styled/StyledPage/StyledPage';
+import Page from '../../components-core/Page/Page';
 import {
-  StyledForm,
-  StyledFormDiv,
-  StyledFormLabel,
-  StyledFormInput,
-  StyledFormErrorDiv,
-  StyledFormSubmit,
-} from '../../components-styled/StyledFormElements/StyledFormElements';
+  Form,
+  FormDiv,
+  FormLabel,
+  FormInput,
+  FormErrorDiv,
+  FormSubmit,
+} from '../../components-shared/FormElements/FormElements';
 import AlertMessage from '../../components-shared/AlertMessage/AlertMessage';
 
 import { TypeAppState, TypeApiXferStatus, TypeNewUser } from '../../../types/baseTypes';
 
 type TypeSignUpProps = {
-  signUpXferStatus: TypeApiXferStatus,
-  signUp: (newUser: TypeNewUser) => void,
+  signUpXferStatus: TypeApiXferStatus;
+  signUp: (newUser: TypeNewUser) => void;
 };
 
 function SignUpPage(props: TypeSignUpProps) {
@@ -29,32 +29,42 @@ function SignUpPage(props: TypeSignUpProps) {
   };
 
   return (
-    <StyledPage>
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <StyledFormDiv>
-          <StyledFormLabel>First Name</StyledFormLabel>
-          <StyledFormInput tabIndex={1} type="text" name="firstName" ref={register({ required: true })} />
-          <StyledFormErrorDiv>
+    <Page>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <FormDiv>
+          <FormLabel>First Name</FormLabel>
+          <FormInput tabIndex={1} type="text" name="firstName" ref={register({ required: true })} />
+          <FormErrorDiv>
             {errors.firstName && errors.firstName.type && errors.firstName.type === 'required' && (
               <AlertMessage alertType="error" text="First name is required." />
             )}
-          </StyledFormErrorDiv>
-        </StyledFormDiv>
+          </FormErrorDiv>
+        </FormDiv>
 
-        <StyledFormDiv>
-          <StyledFormLabel>Last Name</StyledFormLabel>
-          <StyledFormInput tabIndex={2} type="text" name="lastName" ref={register({ required: true })} />
-          <StyledFormErrorDiv>
+        <FormDiv>
+          <FormLabel>Last Name</FormLabel>
+          <FormInput tabIndex={2} type="text" name="lastName" ref={register({ required: true })} />
+          <FormErrorDiv>
             {errors.lastName && errors.lastName.type && errors.lastName.type === 'required' && (
               <AlertMessage alertType="error" text="Last name is required." />
             )}
-          </StyledFormErrorDiv>
-        </StyledFormDiv>
+          </FormErrorDiv>
+        </FormDiv>
 
-        <StyledFormDiv>
-          <StyledFormLabel>Email</StyledFormLabel>
-          <StyledFormInput
-            tabIndex={3}
+        <FormDiv>
+          <FormLabel>Display Name</FormLabel>
+          <FormInput tabIndex={3} type="text" name="displayName" ref={register({ required: true })} />
+          <FormErrorDiv>
+            {errors.displayName && errors.displayName.type && errors.displayName.type === 'required' && (
+              <AlertMessage alertType="error" text="Display name is required." />
+            )}
+          </FormErrorDiv>
+        </FormDiv>
+
+        <FormDiv>
+          <FormLabel>Email</FormLabel>
+          <FormInput
+            tabIndex={4}
             type="text"
             name="email"
             ref={register({
@@ -62,20 +72,20 @@ function SignUpPage(props: TypeSignUpProps) {
               pattern: getRegExEmail(),
             })}
           />
-          <StyledFormErrorDiv>
+          <FormErrorDiv>
             {errors.email && errors.email.type && errors.email.type === 'required' && (
               <AlertMessage alertType="error" text="Email is required." />
             )}
             {errors.email && errors.email.type && errors.email.type === 'pattern' && (
               <AlertMessage alertType="error" text="Email must be in a proper email format." />
             )}
-          </StyledFormErrorDiv>
-        </StyledFormDiv>
+          </FormErrorDiv>
+        </FormDiv>
 
-        <StyledFormDiv>
-          <StyledFormLabel>Password</StyledFormLabel>
-          <StyledFormInput
-            tabIndex={4}
+        <FormDiv>
+          <FormLabel>Password</FormLabel>
+          <FormInput
+            tabIndex={5}
             type="password"
             name="password"
             ref={register({
@@ -84,7 +94,7 @@ function SignUpPage(props: TypeSignUpProps) {
               // pattern: getRegExPassword(),
             })}
           />
-          <StyledFormErrorDiv>
+          <FormErrorDiv>
             {errors.password && errors.password.type && errors.password.type === 'required' && (
               <AlertMessage alertType="error" text="Password is required." />
             )}
@@ -96,18 +106,18 @@ function SignUpPage(props: TypeSignUpProps) {
               <AlertMessage alertType="error" text="Password must contain a capital letter, a number, and special character." />
             )} 
             */}
-          </StyledFormErrorDiv>
-        </StyledFormDiv>
+          </FormErrorDiv>
+        </FormDiv>
 
-        <StyledFormErrorDiv>
+        <FormErrorDiv>
           {props.signUpXferStatus.failed && props.signUpXferStatus.error && (
             <AlertMessage alertType="error" text={props.signUpXferStatus.error} />
           )}
-        </StyledFormErrorDiv>
+        </FormErrorDiv>
 
-        <StyledFormSubmit tabIndex={5} type="submit" />
-      </StyledForm>
-    </StyledPage>
+        <FormSubmit tabIndex={6} type="submit" />
+      </Form>
+    </Page>
   );
 }
 

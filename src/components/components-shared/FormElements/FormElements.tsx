@@ -1,3 +1,4 @@
+import * as React from 'react';
 import styled from 'styled-components';
 import {
   FONTS,
@@ -10,7 +11,7 @@ import {
   transitionOneOnFocus,
 } from '../../../assets/styles/vars';
 
-export const StyledForm = styled.form`
+export const Form = styled.form`
   align-self: center;
   margin: 0;
   padding: 2% 2.6%;
@@ -20,11 +21,11 @@ export const StyledForm = styled.form`
   animation: ${keyframesFadeUp} 0.25s ${CUBIC_BEZIER};
 `;
 
-export const StyledFormDiv = styled.div`
+export const FormDiv = styled.div`
   margin: 0 0 24px;
 `;
 
-export const StyledFormLabel = styled.label`
+export const FormLabel = styled.label`
   width: 100%;
   margin: 0;
   height: ${HEADER_HEIGHT / 4}px;
@@ -33,7 +34,7 @@ export const StyledFormLabel = styled.label`
   color: ${COLORS.grayDark};
 `;
 
-export const StyledFormInput = styled.input`
+export const FormInput = styled.input`
   width: calc(90% - 2px);
   padding: 0 5%;
   margin: 0;
@@ -46,12 +47,12 @@ export const StyledFormInput = styled.input`
   ${transitionOneOnFocus('border-color', COLORS.grayMidDark)}
 `;
 
-export const StyledFormErrorDiv = styled.div`
+export const FormErrorDiv = styled.div`
   position: absolute;
   font-size: 75%;
 `;
 
-export const StyledFormSubmit = styled.input`
+export const FormSubmit = styled.input`
   margin-top: 10px;
   width: 100%;
   font-family: ${FONTS.heading};
@@ -67,4 +68,3 @@ export const StyledFormSubmit = styled.input`
   border-radius: ${RADIUS_SM}px;
   ${transitionOneOnHover('background', COLORS.blueMid)}
 `;
-

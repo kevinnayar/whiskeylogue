@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { logOut } from '../../../store/auth/authActions';
 
-import StyledPage from '../../components-styled/StyledPage/StyledPage';
+import Page from '../../components-core/Page/Page';
 import AlertMessage from '../../components-shared/AlertMessage/AlertMessage';
 
 import { TypeAppState, TypeApiXferStatus } from '../../../types/baseTypes';
@@ -19,13 +19,13 @@ class LogOutPage extends React.Component<TypeLogOutProps, {}> {
 
   render() {
     return (
-      <StyledPage>
+      <Page>
         {this.props.logOutXferStatus.failed && this.props.logOutXferStatus.error ? (
           <AlertMessage alertType="error" text={this.props.logOutXferStatus.error} />
         ) : (
           <AlertMessage alertType="success" text="You've been logged out." />
         )}
-      </StyledPage>
+      </Page>
     );
   }
 }

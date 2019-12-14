@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { HEADER_HEIGHT } from '../../../assets/styles/vars';
 
-const StyledPage = styled.section`
+const Page = styled.section`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -9,4 +9,4 @@ const StyledPage = styled.section`
   justify-content: center;
 `;
 
-export default StyledPage;
+export default Page;
