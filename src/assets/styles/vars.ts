@@ -1,21 +1,22 @@
 import { keyframes } from 'styled-components';
 
-export const HEADER_HEIGHT = 100;
+export const HEADER_HEIGHT = 80;
 export const CUBIC_BEZIER = 'cubic-bezier(0.4, 0.0, 0.2, 1)';
-export const BORDER_RADIUS = '4px';
+export const RADIUS_LG = '20px';
+export const RADIUS_SM = '4px';
+
 export const FONTS = {
-  branding: `'Pacifico', 'Times New Roman', serif`,
+  branding: `'Damion', 'Times New Roman', serif`,
   heading: `'Montserrat', 'Roboto', Helvetica, Arial, sans-serif`,
   body: `'Roboto', Helvetica, Arial, sans-serif`,
 };
 export const COLORS = {
-  blueLight: '#48a2fa', //
-  yellowMid: '#ffbe00',
-  yellowDark: '#edae00',
+  blueLight: '#48a2fa',
+  blueMid: '#3968f7',
+  blueDark: '#1a53ff',
 
-  purpleLight: '#e0c3fc',
-  purpleMid: '#b39cc9',
-  purpleDark: '#867597',
+  yellowLight: '#ffbe00',
+  yellowDark: '#edae00',
 
   success: 'rgba(0, 128, 0, 1)',
   error: 'rgba(255, 0, 0, 1)',
@@ -23,7 +24,9 @@ export const COLORS = {
 
   grayLighter: '#f5f5f5',
   grayLight: '#f1f5f8', // '#ececec',
+  grayMidLight: '',
   grayMid: '#dcdcdc',
+  grayMidDark: '#9c9c9c',
   grayDark: '#545454',
   grayDarker: '#2a2a2a',
 };
@@ -52,3 +55,25 @@ export const keyframesFadeRightFull = keyframes`
   0% { transform: translateX(-100%); opacity: 0; }
   100% { transform: translateX(0); opacity: 1; }
 `;
+
+export function transitionOneOnHover(style: string, value: any): string {
+  return `
+    cursor: pointer;
+    transition: ${style} 0.2s ${CUBIC_BEZIER};
+
+    &:hover {
+      ${style}: ${value};
+    }
+  `;
+}
+
+export function transitionOneOnFocus(style: string, value: any): string {
+  return `
+    transition: ${style} 0.2s ${CUBIC_BEZIER};
+
+    &:focus {
+      ${style}: ${value};
+    }
+  `;
+}
+

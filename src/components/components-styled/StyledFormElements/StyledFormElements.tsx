@@ -3,9 +3,11 @@ import {
   FONTS,
   COLORS,
   HEADER_HEIGHT,
-  BORDER_RADIUS,
+  RADIUS_SM,
   CUBIC_BEZIER,
   keyframesFadeUp,
+  transitionOneOnHover,
+  transitionOneOnFocus,
 } from '../../../assets/styles/vars';
 
 export const StyledForm = styled.form`
@@ -13,7 +15,7 @@ export const StyledForm = styled.form`
   margin: 0;
   padding: 2% 2.6%;
   background: ${COLORS.grayLighter};
-  border-radius: ${BORDER_RADIUS}px;
+  border-radius: ${RADIUS_SM}px;
   min-width: 260px;
   animation: ${keyframesFadeUp} 0.25s ${CUBIC_BEZIER};
 `;
@@ -25,22 +27,23 @@ export const StyledFormDiv = styled.div`
 export const StyledFormLabel = styled.label`
   width: 100%;
   margin: 0;
-  height: ${HEADER_HEIGHT / 2}px;
-  line-height: ${HEADER_HEIGHT / 2}px;
+  height: ${HEADER_HEIGHT / 4}px;
+  line-height: ${HEADER_HEIGHT / 4}px;
   font-size: 12px;
-  color: ${COLORS.grayMid};
+  color: ${COLORS.grayDark};
 `;
 
 export const StyledFormInput = styled.input`
   width: calc(90% - 2px);
   padding: 0 5%;
   margin: 0;
-  height: ${HEADER_HEIGHT}px;
-  line-height: ${HEADER_HEIGHT}px;
+  height: ${HEADER_HEIGHT / 2}px;
+  line-height: ${HEADER_HEIGHT / 2}px;
   font-size: 12px;
   border: 1px solid ${COLORS.grayLight};
   color: ${COLORS.grayDark};
-  border-radius: ${BORDER_RADIUS}px;
+  border-radius: ${RADIUS_SM}px;
+  ${transitionOneOnFocus('border-color', COLORS.grayMidDark)}
 `;
 
 export const StyledFormErrorDiv = styled.div`
@@ -53,12 +56,15 @@ export const StyledFormSubmit = styled.input`
   width: 100%;
   font-family: ${FONTS.heading};
   font-size: 14px;
+  font-weight: bold;
   text-transform: uppercase;
+  background: ${COLORS.blueDark};
   color: white;
-  height: ${HEADER_HEIGHT}px;
-  line-height: ${HEADER_HEIGHT}px;
+  height: ${HEADER_HEIGHT / 2}px;
+  line-height: ${HEADER_HEIGHT / 2}px;
   border: none;
   outline: none;
-  border-radius: ${BORDER_RADIUS}px;
+  border-radius: ${RADIUS_SM}px;
+  ${transitionOneOnHover('background', COLORS.blueMid)}
 `;
 

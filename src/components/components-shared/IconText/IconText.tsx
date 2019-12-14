@@ -1,10 +1,21 @@
 import * as React from 'react';
-import { CSSObject } from 'styled-components';
-import {
-  StyledIconText,
-  StyledIcon,
-  StyledText,
-} from '../../components-styled/StyledIconText/StyledIconText';
+import styled, { CSSObject } from 'styled-components';
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+export const Icon = styled.i`
+  align-self: center;
+  margin-right: 5px;
+  font-size: 100%;
+`;
+
+export const Text = styled.p`
+  align-self: center;
+`;
 
 type TypeIconTextProps = {
   icon: string;
@@ -15,10 +26,10 @@ type TypeIconTextProps = {
 function IconText(props: TypeIconTextProps) {
   const iconStyle: CSSObject = props.iconColor ? { color: props.iconColor } : {};
   return (
-    <StyledIconText>
-      <StyledIcon style={iconStyle} className="material-icons">{props.icon}</StyledIcon>
-      <StyledText>{props.text}</StyledText>
-    </StyledIconText>
+    <Wrapper>
+      <Icon style={iconStyle} className="material-icons">{props.icon}</Icon>
+      <Text>{props.text}</Text>
+    </Wrapper>
   );
 }
 
