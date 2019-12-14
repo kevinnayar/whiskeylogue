@@ -24,3 +24,6 @@ node_modules/
 .yarn-integrity
 .env
 /dist
+.cache/
+.DS_Store
+npm-debug.log*
