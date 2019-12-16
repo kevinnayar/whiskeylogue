@@ -7,6 +7,7 @@ const Page = styled.section`
   flex-direction: column;
   height: calc(100% - ${HEADER_HEIGHT}px);
   justify-content: center;
+  position: relative;
 `;
 
 export default Page;

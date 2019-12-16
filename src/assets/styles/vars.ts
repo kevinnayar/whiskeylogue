@@ -1,9 +1,9 @@
 import { keyframes } from 'styled-components';
 
-export const HEADER_HEIGHT = 80;
 export const CUBIC_BEZIER = 'cubic-bezier(0.4, 0.0, 0.2, 1)';
-export const RADIUS_LG = '20px';
-export const RADIUS_SM = '4px';
+export const HEADER_HEIGHT = 80;
+export const RADIUS_LARGE = 20;
+export const RADIUS_SMALL = 4;
 
 export const FONTS = {
   branding: `'Damion', 'Times New Roman', serif`,
@@ -11,12 +11,12 @@ export const FONTS = {
   body: `'Roboto', Helvetica, Arial, sans-serif`,
 };
 export const COLORS = {
-  blueLight: '#48a2fa',
-  blueMid: '#3968f7',
-  blueDark: '#1a53ff',
+  primaryLight: '#f7776e',
+  primaryDark: '#f44336',
 
-  yellowLight: '#ffbe00',
-  yellowDark: '#edae00',
+  secondaryLight: '#48a2fa',
+  // secondaryMid: '#3968f7',
+  secondaryDark: '#1a53ff',
 
   success: 'rgba(0, 128, 0, 1)',
   error: 'rgba(255, 0, 0, 1)',

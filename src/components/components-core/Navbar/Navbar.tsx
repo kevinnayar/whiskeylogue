@@ -5,18 +5,19 @@ import { routes } from '../../../routes';
 
 import { Link } from 'react-router-dom';
 import IconText from '../../components-shared/IconText/IconText';
-import { COLORS, FONTS, HEADER_HEIGHT, RADIUS_LG, transitionOneOnHover } from '../../../assets/styles/vars';
+import { COLORS, FONTS, HEADER_HEIGHT, RADIUS_LARGE, transitionOneOnHover } from '../../../assets/styles/vars';
 
-import { TypeAppState, TypeApiXferStatus } from '../../../types/baseTypes';
+import { TypeAppState, TypeApiXferStatus, TypeUserHydrated } from '../../../types/baseTypes';
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   position: relative;
+  z-index: 1;
   height: ${HEADER_HEIGHT}px;
-  background: ${COLORS.blueDark};
+  background: ${COLORS.primaryDark};
 `;
 
-export const Logo = styled.h1`
+const Logo = styled.h1`
   align-self: center;
   left: 4%;
   top: 0;
@@ -29,7 +30,7 @@ export const Logo = styled.h1`
   font-family: ${FONTS.branding};
 `;
 
-export const LogoLink = styled(Link)`
+const LogoLink = styled(Link)`
   display: block;
   height: ${HEADER_HEIGHT}px;
   line-height: ${HEADER_HEIGHT}px;
@@ -37,7 +38,7 @@ export const LogoLink = styled(Link)`
   ${transitionOneOnHover('text-shadow', '0 0 30px rgba(0, 0, 0, 0.5)')}
 `;
 
-export const Links = styled.nav`
+const Links = styled.nav`
   position: absolute;
   right: calc(4% - 20px);
   top: ${HEADER_HEIGHT / 4}px;
@@ -45,14 +46,14 @@ export const Links = styled.nav`
   line-height: ${HEADER_HEIGHT / 2}px;
 `;
 
-export const LinksLink = styled(Link)`
+const LinksLink = styled(Link)`
   display: block;
   float: left;
   margin-left: 10px;
   padding: 0 20px;
-  border-radius: ${RADIUS_LG};
+  border-radius: ${RADIUS_LARGE}px;
   color: ${COLORS.grayLighter};
-  ${transitionOneOnHover('background', COLORS.blueMid)}
+  ${transitionOneOnHover('background', COLORS.primaryLight)}
 `;
 
 function NavbarLogo(props: { title: string }) {
@@ -63,14 +64,14 @@ function NavbarLogo(props: { title: string }) {
   )
 }
 
-function NavBarAuthedLinks(props: { email: string }) {
+function NavBarAuthedLinks(props: { displayName: string }) {
   return (
     <Links>
       <LinksLink to={routes.logout}>
         <IconText text="Logout" icon="lock" />
       </LinksLink>
       <LinksLink to={routes.user}>
-        <IconText text={props.email} icon="person" />
+        <IconText text={props.displayName} icon="person" />
       </LinksLink>
     </Links>
   );
@@ -95,10 +96,12 @@ type TypeNavbarProps = {
     email: null| string,
     authenticated: boolean,
   };
+  user: null | TypeUserHydrated;
 };
 
 function Navbar(props: TypeNavbarProps) {
   const title = 'whiskeylogue';
+  const displayName = props.user ? props.user.displayName : 'Loading...';
 
   if (props.verifyAuthXferStatus.requested) {
     return (
@@ -112,7 +115,7 @@ function Navbar(props: TypeNavbarProps) {
     <Wrapper>
       <NavbarLogo title={title} />
       {!props.verifyAuthXferStatus.requested && props.userAuth.authenticated && (
-        <NavBarAuthedLinks email={props.userAuth.email || ''} />
+        <NavBarAuthedLinks displayName={displayName} />
       )}
       {!props.verifyAuthXferStatus.requested && !props.userAuth.authenticated && (
         <NavBarUnAuthedLinks />
@@ -125,6 +128,7 @@ function mapStateToProps(state: TypeAppState) {
   return {
     verifyAuthXferStatus: state.auth.verifyAuthXferStatus,
     userAuth: state.auth.userAuth,
+    user: state.auth.user,
   };
 }
 

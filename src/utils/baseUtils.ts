@@ -26,6 +26,30 @@ export function getMatchingResults(text: string, list: string[], limit: void | n
   return results;
 }
 
+export function average(grades: number[]): number {
+  const total: number = grades.reduce((acc, c) => acc + c, 0);
+  return total / grades.length;
+}
+
+export function slugify(value: string): string {
+  let str: string = value;
+  str = str.replace(/^\s+|\s+$/g, '');
+  str = str.toLowerCase();
+
+  const from = 'àáäâèéëêìíïîòóöôùúüûñç·/_,:;';
+  const to = 'aaaaeeeeiiiioooouuuunc------';
+  for (let i = 0, l = from.length; i < l; i++) {
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+  }
+
+  str = str
+    .replace(/[^a-z0-9 -]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+
+  return str;
+}
+
 export function bytesToSize(bytes: number, decimals: number): string {
   if (bytes === 0) {
     return '0 Bytes';

@@ -24,9 +24,28 @@ import {
 } from '../../types/reducerAuthTypes';
 
 async function handleLogInAsync(userCredentials: TypeUserCredentials): Promise<firebase.auth.UserCredential> {
-  const { email, password } = userCredentials;
-  const credential: firebase.auth.UserCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-  return credential;
+  const result: firebase.auth.UserCredential = await firebase
+    .auth()
+    .signInWithEmailAndPassword(userCredentials.email, userCredentials.password);
+  return result;
+}
+
+async function handleGetUserAsync(userGuid: string): Promise<void | firebase.firestore.DocumentData> {
+  const userRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData> = firebase
+    .firestore()
+    .collection('users')
+    .doc(userGuid);
+
+  const userDoc: void | firebase.firestore.DocumentData = await userRef
+    .get()
+    .then((userSnapshot: firebase.firestore.DocumentSnapshot) => {
+      if (userSnapshot.exists) {
+        return userSnapshot.data();
+      } else {
+        throw new Error('Could not get user data.');
+      }
+    });
+  return userDoc;
 }
 
 async function handleLogOutAsync(): Promise<void> {
@@ -36,6 +55,7 @@ async function handleLogOutAsync(): Promise<void> {
 
 async function handleSignUpAsync(newUser: TypeNewUser): Promise<firebase.auth.UserCredential> {
   const { firstName, lastName, displayName, email, password } = newUser;
+
   const credential: firebase.auth.UserCredential = await firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
@@ -62,71 +82,112 @@ async function handleSignUpAsync(newUser: TypeNewUser): Promise<firebase.auth.Us
   return credential;
 }
 
-async function handleGetUserAsync(userGuid: string): Promise<firebase.firestore.DocumentData | void> {
-  const userRef: firebase.firestore.DocumentReference = firebase
-    .firestore()
-    .collection('users')
-    .doc(userGuid);
-
-  const userDoc: firebase.firestore.DocumentData | void = await userRef.get().then((userSnapshot: firebase.firestore.DocumentSnapshot) => {
-    return userSnapshot.data();
-  });
-  return userDoc;
-}
-
 export function logIn(userCredentials: TypeUserCredentials) {
-  return async (dispatch: (action: TypeAuthLogInDispatch) => void) => {
+  return async (dispatch: (action: TypeAuthLogInDispatch | TypeAuthGetUserDispatch) => void) => {
     dispatch({
       type: AUTH_LOGIN_REQUESTED,
     });
 
     try {
       const userCredential: firebase.auth.UserCredential = await handleLogInAsync(userCredentials);
+      if (userCredential.user === null || !userCredential.user.uid) {
+        throw new Error('User not found.');
+      }
+
       dispatch({
         type: AUTH_LOGIN_SUCCEEDED,
-        result: userCredential.user || null,
+        result: userCredential.user,
       });
+
+      dispatch({
+        type: AUTH_GET_USER_REQUESTED,
+      });
+
+      try {
+        const userDoc: void | firebase.firestore.DocumentData = await handleGetUserAsync(userCredential.user.uid);
+        if (!userDoc) {
+          throw new Error('Could not get user data.');
+        }
+
+        dispatch({
+          type: AUTH_GET_USER_SUCCEEDED,
+          result: userDoc,
+        });
+      } catch (error) {
+        dispatch({
+          type: AUTH_GET_USER_FAILED,
+          error,
+        });
+      }
     } catch (error) {
       dispatch({
         type: AUTH_LOGIN_FAILED,
         error,
       });
     }
-  }
+  };
 }
 
 export function signUp(newUser: TypeNewUser) {
-  return async (dispatch: (action: TypeAuthLogInDispatch | TypeAuthSignUpDispatch) => void) => {
+  return async (dispatch: (action: TypeAuthLogInDispatch | TypeAuthSignUpDispatch | TypeAuthGetUserDispatch) => void) => {
     dispatch({
       type: AUTH_SIGNUP_REQUESTED,
     });
 
     try {
       const userCredential: firebase.auth.UserCredential = await handleSignUpAsync(newUser);
+      if (userCredential.user === null || !userCredential.user.uid) {
+        throw new Error('User not found.');
+      }
       dispatch({
         type: AUTH_SIGNUP_SUCCEEDED,
-        result: userCredential.user || null,
+        result: userCredential.user,
       });
+
+      dispatch({
+        type: AUTH_LOGIN_REQUESTED,
+      });
+
+      try {
+        const userCredential: firebase.auth.UserCredential = await handleLogInAsync(newUser);
+        if (userCredential.user === null || !userCredential.user.uid) {
+          throw new Error('User not found.');
+        }
+
+        dispatch({
+          type: AUTH_LOGIN_SUCCEEDED,
+          result: userCredential.user,
+        });
+
+        dispatch({
+          type: AUTH_GET_USER_REQUESTED,
+        });
+
+        try {
+          const userDoc: void | firebase.firestore.DocumentData = await handleGetUserAsync(userCredential.user.uid);
+          if (!userDoc) {
+            throw new Error('Could not get user data.');
+          }
+
+          dispatch({
+            type: AUTH_GET_USER_SUCCEEDED,
+            result: userDoc,
+          });
+        } catch (error) {
+          dispatch({
+            type: AUTH_GET_USER_FAILED,
+            error,
+          });
+        }
+      } catch (error) {
+        dispatch({
+          type: AUTH_LOGIN_FAILED,
+          error,
+        });
+      }
     } catch (error) {
       dispatch({
         type: AUTH_SIGNUP_FAILED,
-        error,
-      });
-    }
-
-    dispatch({
-      type: AUTH_LOGIN_REQUESTED,
-    });
-
-    try {
-      const userCredential: firebase.auth.UserCredential = await handleLogInAsync(newUser);
-      dispatch({
-        type: AUTH_LOGIN_SUCCEEDED,
-        result: userCredential.user || null,
-      });
-    } catch (error) {
-      dispatch({
-        type: AUTH_LOGIN_FAILED,
         error,
       });
     }
@@ -134,24 +195,46 @@ export function signUp(newUser: TypeNewUser) {
 }
 
 export function verifyAuth() {
-  return async (dispatch: (action: TypeAuthVerifyDispatch) => void, _getState: any, { firebase }: any) => {
+  return async (dispatch: (action: TypeAuthVerifyDispatch | TypeAuthGetUserDispatch) => void, _getState: any, { firebase }: any) => {
     dispatch({
       type: AUTH_VERIFY_REQUESTED,
     });
+    
   
     try {
       firebase
         .auth()
-        .onAuthStateChanged((user: firebase.User) => {
+        .onAuthStateChanged(async (user: firebase.User) => {
           if (user !== null) {
             dispatch({
               type: AUTH_VERIFY_SUCCEEDED,
               result: user,
             });
+
+            dispatch({
+              type: AUTH_GET_USER_REQUESTED,
+            });
+
+            try {
+              const userDoc: void | firebase.firestore.DocumentData = await handleGetUserAsync(user.uid);
+              if (!userDoc) {
+                throw new Error('Could not get user data.');
+              }
+
+              dispatch({
+                type: AUTH_GET_USER_SUCCEEDED,
+                result: userDoc,
+              });
+            } catch (error) {
+              dispatch({
+                type: AUTH_GET_USER_FAILED,
+                error,
+              });
+            }
           } else {
             dispatch({
               type: AUTH_VERIFY_FAILED,
-              error: 'User is not logged in',
+              error: 'User is not logged in.',
             });
           }
         });
@@ -182,29 +265,4 @@ export function logOut() {
       });
     }
   }
-}
-
-export function getUser(userGuid: string) {
-  return async (dispatch: (action: TypeAuthGetUserDispatch) => void) => {
-    dispatch({
-      type: AUTH_GET_USER_REQUESTED,
-    });
-
-    try {
-      const user: firebase.firestore.DocumentData | void = await handleGetUserAsync(userGuid);
-      if (user) {
-        dispatch({
-          type: AUTH_GET_USER_SUCCEEDED,
-          result: user,
-        });
-      } else {
-        throw new Error('User does not exist');
-      }
-    } catch (error) {
-      dispatch({
-        type: AUTH_GET_USER_FAILED,
-        error,
-      });
-    }
-  };
 }

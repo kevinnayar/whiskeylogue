@@ -38,7 +38,7 @@ const initialState: TypeAuthReducer = {
   logOutXferStatus: apiXferInit(),
   getUserXferStatus: apiXferInit(),
   userAuth: unAuthedUser,
-  userDef: null,
+  user: null,
 };
 
 export default function authReducer(
@@ -62,7 +62,7 @@ export default function authReducer(
       ...state,
       logInXferStatus: apiXferFailed(action.error),
       userAuth: unAuthedUser,
-      userDef: null,
+      user: null,
     };
 
     case AUTH_VERIFY_REQUESTED: return { ...state, verifyAuthXferStatus: apiXferRequested() };
@@ -82,7 +82,7 @@ export default function authReducer(
         ...state,
         verifyAuthXferStatus: apiXferFailed(action.error),
         userAuth: unAuthedUser,
-        userDef: null,
+        user: null,
       };
     }
 
@@ -96,7 +96,7 @@ export default function authReducer(
         ...state,
         logOutXferStatus: apiXferSucceeded(),
         userAuth: unAuthedUser,
-        userDef: null,
+        user: null,
       };
     }
     case AUTH_LOGOUT_FAILED: return { ...state, logOutXferStatus: apiXferFailed(action.error) };
@@ -107,13 +107,13 @@ export default function authReducer(
       return {
         ...state,
         getUserXferStatus: apiXferSucceeded(),
-        userDef: action.result,
+        user: action.result,
       };
     }
     case AUTH_GET_USER_FAILED: return { 
       ...state,
       getUserXferStatus: apiXferFailed(action.error),
-      userDef: null,
+      user: null,
     }
 
     default:

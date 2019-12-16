@@ -8,6 +8,6 @@
       "ssr": false
     }],
     ["@babel/plugin-transform-runtime", {
-    }]
+    }],
   ]
 }

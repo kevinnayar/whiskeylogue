@@ -7,28 +7,48 @@ export type TypeApiXferStatus = {
   error: null | string;
 };
 
+// user
 export type TypeUserCredentials = {
   email: string;
   password: string;
 };
 
-export type TypeUserBase = {
+export type TypeUserDef = {
   firstName: string;
   lastName: string;
   displayName: string;
   email: string;
 };
 
-export type TypeNewUser = TypeUserCredentials & TypeUserBase;
+export type TypeNewUser = TypeUserCredentials & TypeUserDef;
 
 export type TypeUserRoleTypes = 'BASIC' | 'PREMIUM' | 'SUPER_ADMIN';
 
-export type TypeUserHydrated = TypeUserBase & {
+export type TypeUserHydrated = TypeUserDef & {
   userId: string;
   roleType: TypeUserRoleTypes;
   createdAt: firebase.firestore.Timestamp;
 };
 
+// whisky
+export type TypeWhiskyBase = {
+  brand: string;
+  name: string;
+  type: string;
+
+  age?: number;
+  price?: number;
+  origin?: string;
+  imageUrl?: string;
+};
+
+export type TypeWhiskyHydrated = TypeWhiskyBase & {
+  averageRating: number;
+  whiskyId: string;
+  createdAt: firebase.firestore.Timestamp;
+};
+
+// reducer
 export type TypeBaseDispatch = {
   result?: any;
   error?: any;

@@ -4,7 +4,7 @@ import {
   FONTS,
   COLORS,
   HEADER_HEIGHT,
-  RADIUS_SM,
+  RADIUS_SMALL,
   CUBIC_BEZIER,
   keyframesFadeUp,
   transitionOneOnHover,
@@ -16,7 +16,7 @@ export const Form = styled.form`
   margin: 0;
   padding: 2% 2.6%;
   background: ${COLORS.grayLighter};
-  border-radius: ${RADIUS_SM}px;
+  border-radius: ${RADIUS_SMALL}px;
   min-width: 260px;
   animation: ${keyframesFadeUp} 0.25s ${CUBIC_BEZIER};
 `;
@@ -43,7 +43,7 @@ export const FormInput = styled.input`
   font-size: 12px;
   border: 1px solid ${COLORS.grayLight};
   color: ${COLORS.grayDark};
-  border-radius: ${RADIUS_SM}px;
+  border-radius: ${RADIUS_SMALL}px;
   ${transitionOneOnFocus('border-color', COLORS.grayMidDark)}
 `;
 
@@ -59,12 +59,12 @@ export const FormSubmit = styled.input`
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
-  background: ${COLORS.blueDark};
+  background: ${COLORS.primaryDark};
   color: white;
-  height: ${HEADER_HEIGHT / 2}px;
-  line-height: ${HEADER_HEIGHT / 2}px;
+  height: ${HEADER_HEIGHT * .67}px;
+  line-height: ${HEADER_HEIGHT * .67}px;
   border: none;
   outline: none;
-  border-radius: ${RADIUS_SM}px;
-  ${transitionOneOnHover('background', COLORS.blueMid)}
+  border-radius: ${RADIUS_SMALL}px;
+  ${transitionOneOnHover('background', COLORS.primaryLight)}
 `;

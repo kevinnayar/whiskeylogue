@@ -1,8 +1,4 @@
-import {
-  TypeApiXferStatus,
-  TypeNullOrString,
-  TypeUserDef,
-} from './baseTypes';
+import { TypeApiXferStatus, TypeUserHydrated } from './baseTypes';
 import { TypeBaseDispatch } from './baseTypes';
 
 export const AUTH_LOGIN_REQUESTED = 'AUTH_LOGIN_REQUESTED';
@@ -75,8 +71,8 @@ export type TypeAuthDispatch =
   | TypeAuthGetUserDispatch;
 
 export type TypeUserAuth = {
-  userGuid: TypeNullOrString;
-  email: TypeNullOrString;
+  userGuid: null | string;
+  email: null | string;
   authenticated: boolean;
 };
 
@@ -87,5 +83,5 @@ export type TypeAuthReducer = {
   logOutXferStatus: TypeApiXferStatus;
   getUserXferStatus: TypeApiXferStatus;
   userAuth: TypeUserAuth;
-  userDef: null | TypeUserDef;
+  user: null | TypeUserHydrated;
 };

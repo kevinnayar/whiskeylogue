@@ -1,0 +1,108 @@
+[
+  {
+    "age": 18,
+    "brand": "GlenDronach",
+    "price": 192,
+    "event_number": 36,
+    "event_date": "07/13/2018",
+    "id": "glendronach-allardice-aged-18-years",
+    "name": "Allardice Aged 18 Years",
+    "origin": "Scotland",
+    "type": "Scotch",
+    "url": "https://www.glendronachdistillery.com/en-us/our-whisky/allardice-aged-18-years/",
+    "description": "Remarkable flavours of stewed fruits and all-spice marry together with classic aged Oloroso sherry and toasted walnut bread combined with chocolate orange.",
+    "ratings": [
+      {
+        "name": "Alex Zelenak",
+        "score": 80
+      },
+      {
+        "name": "Bryan Peterson",
+        "score": 80
+      },
+      {
+        "name": "Isaac Oster",
+        "score": 80
+      },
+      {
+        "name": "Jason Smith",
+        "score": 90
+      },
+      {
+        "name": "Joe Boutros",
+        "score": 70
+      },
+      {
+        "name": "Liam Wiles",
+        "score": 80
+      },
+      {
+        "name": "Oscar Aparicio",
+        "score": 80
+      },
+      {
+        "name": "Renee Trepagnier",
+        "score": 70
+      },
+      {
+        "name": "Vivek Goel",
+        "score": 90
+      }
+    ],
+    "profiles": ["Fruity", "Nutty", "Spicy", "Sweet"],
+    "average_rating": 80
+  },
+  {
+    "age": 14,
+    "brand": "Oban",
+    "price": 70,
+    "event_number": 36,
+    "event_date": "07/13/2018",
+    "id": "oban-14-single-malt-scotch",
+    "name": "14 Single Malt Scotch",
+    "origin": "Scotland",
+    "type": "Scotch",
+    "url": "https://www.malts.com/en-au/our-whisky-collection/oban/oban-14-years-old/",
+    "description": "A combination of rich sweetness with a smoky dryness and appetizing spice distinguishes this lovingly-matured Highland malt.",
+    "ratings": [
+      {
+        "name": "Alex Zelenak",
+        "score": 70
+      },
+      {
+        "name": "Bryan Peterson",
+        "score": 80
+      },
+      {
+        "name": "Isaac Oster",
+        "score": 70
+      },
+      {
+        "name": "Jason Smith",
+        "score": 80
+      },
+      {
+        "name": "Joe Boutros",
+        "score": 70
+      },
+      {
+        "name": "Liam Wiles",
+        "score": 70
+      },
+      {
+        "name": "Oscar Aparicio",
+        "score": 70
+      },
+      {
+        "name": "Renee Trepagnier",
+        "score": 80
+      },
+      {
+        "name": "Vivek Goel",
+        "score": 80
+      }
+    ],
+    "profiles": ["Smokey", "Spicy", "Sweet"],
+    "average_rating": 74
+  }
+]
