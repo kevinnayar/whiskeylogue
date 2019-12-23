@@ -17,11 +17,19 @@ const Wrapper = styled.div`
   background: ${COLORS.primaryDark};
 `;
 
+const LogoLink = styled(Link)`
+  display: block;
+  position: relative;
+  margin-left: 3%;
+  height: ${HEADER_HEIGHT}px;
+  line-height: ${HEADER_HEIGHT}px;
+  color: ${COLORS.grayLighter};
+  padding: 0 20px;
+  ${transitionOneOnHover('background', COLORS.primaryLight)}
+`;
+
 const Logo = styled.h1`
   align-self: center;
-  left: 4%;
-  top: 0;
-  position: absolute;
   padding: 0;
   margin: 0;
   height: ${HEADER_HEIGHT}px;
@@ -30,17 +38,9 @@ const Logo = styled.h1`
   font-family: ${FONTS.branding};
 `;
 
-const LogoLink = styled(Link)`
-  display: block;
-  height: ${HEADER_HEIGHT}px;
-  line-height: ${HEADER_HEIGHT}px;
-  color: ${COLORS.grayLighter};
-  ${transitionOneOnHover('text-shadow', '0 0 30px rgba(0, 0, 0, 0.5)')}
-`;
-
 const Links = styled.nav`
   position: absolute;
-  right: calc(4% - 20px);
+  right: 3%;
   top: ${HEADER_HEIGHT / 4}px;
   height: ${HEADER_HEIGHT / 2}px;
   line-height: ${HEADER_HEIGHT / 2}px;
@@ -58,9 +58,9 @@ const LinksLink = styled(Link)`
 
 function NavbarLogo(props: { title: string }) {
   return (
-    <Logo>
-      <LogoLink to="/">{props.title}</LogoLink>
-    </Logo>
+    <LogoLink to="/">
+      <Logo>{props.title}</Logo>
+    </LogoLink>
   )
 }
 

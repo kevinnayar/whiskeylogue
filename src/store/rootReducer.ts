@@ -1,15 +1,19 @@
 import { combineReducers, Reducer } from 'redux';
 
 import authReducer from './auth/authReducer';
+import whiskeyReducer from './whiskey/whiskeyReducer';
 import { TypeAuthReducer } from '../types/reducerAuthTypes';
+import { TypeWhiskeyReducer } from '../types/reducerWhiskeyTypes';
 
 import { TypeAppState, TypeAppDispatch } from '../types/baseTypes';
 import { AUTH_LOGOUT_SUCCEEDED } from '../types/reducerAuthTypes';
 
 const appReducer: Reducer<{
   auth: TypeAuthReducer;
+  whiskey: TypeWhiskeyReducer;
 }, TypeAppDispatch> = combineReducers({
   auth: authReducer,
+  whiskey: whiskeyReducer,
 });
 
 function rootReducer(state: TypeAppState, action: TypeAppDispatch) {

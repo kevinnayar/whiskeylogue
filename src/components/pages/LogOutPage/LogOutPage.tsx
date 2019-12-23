@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { logOut } from '../../../store/auth/authActions';
 
 import Page from '../../components-core/Page/Page';
 import AlertMessage from '../../components-shared/AlertMessage/AlertMessage';
 
 import { TypeAppState, TypeApiXferStatus } from '../../../types/baseTypes';
+import { routes } from '../../../routes';
 
 type TypeLogOutProps = {
   logOutXferStatus: TypeApiXferStatus,
@@ -23,7 +25,7 @@ class LogOutPage extends React.Component<TypeLogOutProps, {}> {
         {this.props.logOutXferStatus.failed && this.props.logOutXferStatus.error ? (
           <AlertMessage alertType="error" text={this.props.logOutXferStatus.error} />
         ) : (
-          <AlertMessage alertType="success" text="You've been logged out." />
+          <Redirect to={routes.home} />
         )}
       </Page>
     );

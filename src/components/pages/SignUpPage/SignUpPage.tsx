@@ -4,7 +4,8 @@ import useForm from 'react-hook-form';
 import { useHistory, Redirect } from 'react-router-dom';
 import { routes, routesValues } from '../../../routes';
 import { signUp } from '../../../store/auth/authActions';
-import { getRegExEmail } from '../../../utils/baseUtils';
+import { getRegExEmail } from '../../../utils/stringUtils';
+import { HEADER_HEIGHT } from '../../../assets/styles/vars';
 
 import Page from '../../components-core/Page/Page';
 import BackgroundImage from '../../components-shared/BackgroundImage/BackgroundImage';
@@ -53,7 +54,7 @@ function SignUpPage(props: TypeSignUpProps) {
 
   return (
     <Page>
-      <BackgroundImage id="whiskey1">
+      <BackgroundImage id="whiskey1" height={`${window.innerHeight - HEADER_HEIGHT}px`}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormDiv>
             <FormLabel>First Name</FormLabel>

@@ -3,7 +3,7 @@ export const routes = {
   login: '/login',
   signup: '/register',
   logout: '/logout',
-  whisky: '/whisky',
+  whiskey: '/whiskey',
   user: '/user',
   settings: '/settings',
   reviewWrite: '/write-review',

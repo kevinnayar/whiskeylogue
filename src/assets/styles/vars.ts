@@ -6,7 +6,7 @@ export const RADIUS_LARGE = 20;
 export const RADIUS_SMALL = 4;
 
 export const FONTS = {
-  branding: `'Damion', 'Times New Roman', serif`,
+  branding: `'Pacifico', 'Times New Roman', serif`,
   heading: `'Montserrat', 'Roboto', Helvetica, Arial, sans-serif`,
   body: `'Roboto', Helvetica, Arial, sans-serif`,
 };
@@ -14,8 +14,7 @@ export const COLORS = {
   primaryLight: '#f7776e',
   primaryDark: '#f44336',
 
-  secondaryLight: '#48a2fa',
-  // secondaryMid: '#3968f7',
+  secondaryLight: '#48a2fa', //'#3968f7',
   secondaryDark: '#1a53ff',
 
   success: 'rgba(0, 128, 0, 1)',
@@ -59,7 +58,7 @@ export const keyframesFadeRightFull = keyframes`
 export function transitionOneOnHover(style: string, value: any): string {
   return `
     cursor: pointer;
-    transition: ${style} 0.2s ${CUBIC_BEZIER};
+    transition: ${style} 0.3s ${CUBIC_BEZIER};
 
     &:hover {
       ${style}: ${value};
@@ -69,7 +68,7 @@ export function transitionOneOnHover(style: string, value: any): string {
 
 export function transitionOneOnFocus(style: string, value: any): string {
   return `
-    transition: ${style} 0.2s ${CUBIC_BEZIER};
+    transition: ${style} 0.3s ${CUBIC_BEZIER};
 
     &:focus {
       ${style}: ${value};

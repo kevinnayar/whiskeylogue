@@ -26,18 +26,13 @@ export function getMatchingResults(text: string, list: string[], limit: void | n
   return results;
 }
 
-export function average(grades: number[]): number {
-  const total: number = grades.reduce((acc, c) => acc + c, 0);
-  return total / grades.length;
-}
-
 export function slugify(value: string): string {
   let str: string = value;
   str = str.replace(/^\s+|\s+$/g, '');
   str = str.toLowerCase();
 
-  const from = 'àáäâèéëêìíïîòóöôùúüûñç·/_,:;';
-  const to = 'aaaaeeeeiiiioooouuuunc------';
+  const from = 'ãàáäâèéëêìíïîõòóöôùúüûñç·/_,:;';
+  const to = 'aaaaaeeeeiiiiooooouuuunc------';
   for (let i = 0, l = from.length; i < l; i++) {
     str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
   }
@@ -50,18 +45,6 @@ export function slugify(value: string): string {
   return str;
 }
 
-export function bytesToSize(bytes: number, decimals: number): string {
-  if (bytes === 0) {
-    return '0 Bytes';
-  }
-
-  const k: number = 1024;
-  const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-  const i: number = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(decimals))} ${sizes[i]}`;
-}
-
 export function getRegExEmail() {
   return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 }
@@ -69,5 +52,6 @@ export function getRegExEmail() {
 export function getRegExPassword() {
   return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
 }
+
 
 

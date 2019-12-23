@@ -1,4 +1,5 @@
 import { TypeAuthReducer, TypeAuthDispatch } from './reducerAuthTypes';
+import { TypeWhiskeyReducer, TypeWhiskeyDispatch } from './reducerWhiskeyTypes';
 
 export type TypeApiXferStatus = {
   requested: boolean;
@@ -30,8 +31,8 @@ export type TypeUserHydrated = TypeUserDef & {
   createdAt: firebase.firestore.Timestamp;
 };
 
-// whisky
-export type TypeWhiskyBase = {
+// whiskey
+export type TypeWhiskeyBase = {
   brand: string;
   name: string;
   type: string;
@@ -42,9 +43,9 @@ export type TypeWhiskyBase = {
   imageUrl?: string;
 };
 
-export type TypeWhiskyHydrated = TypeWhiskyBase & {
+export type TypeWhiskeyHydrated = TypeWhiskeyBase & {
   averageRating: number;
-  whiskyId: string;
+  whiskeyId: string;
   createdAt: firebase.firestore.Timestamp;
 };
 
@@ -56,8 +57,10 @@ export type TypeBaseDispatch = {
 
 export type TypeAppState = {
   auth: TypeAuthReducer;
+  whiskey: TypeWhiskeyReducer;
 };
 
 export type TypeAppDispatch = 
   | TypeAuthDispatch
+  | TypeWhiskeyDispatch
 ;

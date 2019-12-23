@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { COLORS, HEADER_HEIGHT } from '../../../assets/styles/vars';
+import { COLORS, HEADER_HEIGHT, transitionOneOnHover } from '../../../assets/styles/vars';
 
 const backgrounds = require('../../../assets/images/backgrounds/*.jpg');
 const BackgroundImageWrapper = styled.div`
@@ -37,6 +37,7 @@ const Link = styled.a`
   color: ${COLORS.grayLight};
   font-weight: bold;
   text-decoration: underline;
+  ${transitionOneOnHover('opacity', 0.7)}
 `;
 
 type TypeImageData = {
@@ -73,7 +74,10 @@ function BackgroundImage(props: { id: string, height?: string, children?: any })
         <Link href={images[props.id].attributionUrl} target="_blank">
           {images[props.id].photographer}
         </Link>{' '}
-        at Unsplash
+        on{' '}
+        <Link href="https://unsplash.com/" target="_blank">
+          Unsplash
+        </Link>
       </Text>
     </Wrapper>
   );
