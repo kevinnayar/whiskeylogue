@@ -24,7 +24,8 @@ const Flex = styled.div`
 const LinkWrapper = styled(Link)`
   display: flex;
   flex-direction: column;
-  width: 20%;
+  width: 16%;
+  box-sizing: border-box;
   margin: 0 2% 4%;
   position: relative;
   color: ${COLORS.grayDarker};
@@ -151,7 +152,7 @@ function WhiskeyCard(props: TypeWhiskeyHydrated) {
   const slug = slugify(`${props.brand}-${props.name}`);
   return (
     <LinkWrapper
-      key={slug}
+      key={props.whiskeyId}
       to={`/whiskies/${slug}`}
     >
       <ImageWrapper>

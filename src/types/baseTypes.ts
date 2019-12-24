@@ -49,6 +49,11 @@ export type TypeWhiskeyHydrated = TypeWhiskeyBase & {
   createdAt: firebase.firestore.Timestamp;
 };
 
+// filters
+export type TypeSorters = 'age' | 'averageRating' | 'price';
+export type TypeSortersDirection = 'asc' | 'desc';
+export type TypeFilters = 'Bourbon' | 'Irish' | 'Japanese' | 'Rye' | 'Scotch' | 'Whiskey';
+
 // reducer
 export type TypeBaseDispatch = {
   result?: any;

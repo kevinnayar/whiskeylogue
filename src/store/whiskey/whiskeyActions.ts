@@ -1,49 +1,105 @@
 import firebase from '../../config/firebase';
-import { TypeWhiskeyHydrated } from '../../types/baseTypes';
 import {
   WHISKEY_GET_FAVORITE_REQUESTED,
   WHISKEY_GET_FAVORITE_SUCCEEDED,
   WHISKEY_GET_FAVORITE_FAILED,
+  WHISKEY_GET_ALL_REQUESTED,
+  WHISKEY_GET_ALL_SUCCEEDED,
+  WHISKEY_GET_ALL_FAILED,
   TypeWhiskeyGetFavoriteDispatch,
+  TypeWhiskeyGetAllDispatch,
 } from '../../types/reducerWhiskeyTypes';
+import {
+  TypeSorters,
+  TypeSortersDirection,
+  TypeFilters,
+} from '../../types/baseTypes';
 
+async function handleGetWhiskeysAsync(
+  sortBy?: TypeSorters,
+  sortDir?: TypeSortersDirection,
+  types?: TypeFilters[],
+  limit?: number
+): Promise<firebase.firestore.DocumentData[]> {
+  let itemRef: firebase.firestore.Query<firebase.firestore.DocumentData>;
 
-async function handleGetFavoriteWhiskeyAsync(type: string): Promise<void | firebase.firestore.DocumentData> {
-  const itemRef: firebase.firestore.Query<firebase.firestore.DocumentData> = firebase
-    .firestore()
-    .collection('whiskies')
-    .where('type', '==', type)
-    .orderBy('averageRating', 'desc')
-    .limit(1);
+  const _sortBy = sortBy || 'averageRating';
+  const _sortDir = sortDir || 'desc';
 
-  const doc: firebase.firestore.DocumentData = await itemRef
+  if (types && types.length !== 0) {
+    itemRef = firebase
+      .firestore()
+      .collection('whiskies')
+      .where('type', 'in', types)
+      .orderBy(_sortBy, _sortDir);
+  } else {
+    itemRef = firebase
+      .firestore()
+      .collection('whiskies')
+      .orderBy(_sortBy, _sortDir);
+  }
+
+  if (limit) {
+    itemRef = itemRef.limit(limit);
+  }
+
+  const docs: firebase.firestore.DocumentData[] = [];
+  await itemRef
     .get()
     .then((snapshot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>) => {
-      const item = snapshot.docs[0];
-      if (item && item.exists) {
-        return item.data();
-      } else {
-        throw new Error('Could not find whiskey.');
-      }
+      snapshot.docs.forEach(doc => {
+        if (doc.exists) {
+          docs.push(doc.data());
+        }
+      });
+    })
+    .catch(_err => {
+      throw new Error('Could not load whiskies.');
     });
-  return doc;
+  return docs;
 }
 
-export function getFavoriteWhiskey(type: string) {
+export function getFavoriteWhiskey(type: TypeFilters) {
   return async (dispatch: (action: TypeWhiskeyGetFavoriteDispatch) => void) => {
     dispatch({
       type: WHISKEY_GET_FAVORITE_REQUESTED,
     });
 
     try {
-      const result = await handleGetFavoriteWhiskeyAsync(type);
+      const results = await handleGetWhiskeysAsync(undefined, undefined, [type], 1);
       dispatch({
         type: WHISKEY_GET_FAVORITE_SUCCEEDED,
-        result,
+        result: results[0],
       });
     } catch (error) {
       dispatch({
         type: WHISKEY_GET_FAVORITE_FAILED,
+        error,
+      });
+    }
+  }
+}
+
+export function getAllWhiskies(
+  sortBy: TypeSorters,
+  sortDir: TypeSortersDirection,
+  types?: TypeFilters[],
+  limit?: number,
+) {
+  return async (dispatch: (action: TypeWhiskeyGetAllDispatch) => void) => {
+    dispatch({
+      type: WHISKEY_GET_ALL_REQUESTED,
+    });
+
+    try {
+      const result = await handleGetWhiskeysAsync(sortBy, sortDir, types, limit);
+      dispatch({
+        type: WHISKEY_GET_ALL_SUCCEEDED,
+        result,
+      });
+    } catch (error) {
+      dispatch({
+        type: WHISKEY_GET_ALL_FAILED,
         error,
       });
     }

@@ -4,7 +4,6 @@ import useForm from 'react-hook-form';
 import { useHistory, Redirect } from 'react-router-dom';
 import { routes, routesValues } from '../../../routes';
 import { logIn } from '../../../store/auth/authActions';
-import { getFavoriteWhiskey } from '../../../store/whiskey/whiskeyActions';
 import { getRegExEmail } from '../../../utils/stringUtils';
 import { HEADER_HEIGHT } from '../../../assets/styles/vars';
 
@@ -26,7 +25,6 @@ type TypeLogInProps = {
   logInXferStatus: TypeApiXferStatus;
   logIn: (userCredentials: TypeUserCredentials) => void;
   isAuthenticated: boolean;
-  getFavoriteWhiskey: (type: string) => void;
 };
 
 function LogInPage(props: TypeLogInProps) {
@@ -112,7 +110,6 @@ function mapStateToProps(state: TypeAppState) {
 function mapDispatchToProps(dispatch: any) {
   return {
     logIn: (userCredentials: TypeUserCredentials) => dispatch(logIn(userCredentials)),
-    getFavoriteWhiskey: (type: string) => dispatch(getFavoriteWhiskey(type)),
   };
 }
 

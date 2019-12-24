@@ -4,6 +4,7 @@ export const routes = {
   signup: '/register',
   logout: '/logout',
   whiskey: '/whiskey',
+  whiskies: '/whiskies',
   user: '/user',
   settings: '/settings',
   reviewWrite: '/write-review',

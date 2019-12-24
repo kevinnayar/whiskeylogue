@@ -8,10 +8,14 @@ import {
   WHISKEY_GET_FAVORITE_REQUESTED,
   WHISKEY_GET_FAVORITE_SUCCEEDED,
   WHISKEY_GET_FAVORITE_FAILED,
+  WHISKEY_GET_ALL_REQUESTED,
+  WHISKEY_GET_ALL_SUCCEEDED,
+  WHISKEY_GET_ALL_FAILED,
   TypeWhiskeyFavorites,
   TypeWhiskeyReducer,
   TypeWhiskeyDispatch,
 } from '../../types/reducerWhiskeyTypes';
+import { TypeWhiskeyHydrated } from '../../types/baseTypes';
 
 const initialWhiskeyFavorites: TypeWhiskeyFavorites = {
   bourbon: null,
@@ -25,6 +29,8 @@ const initialWhiskeyFavorites: TypeWhiskeyFavorites = {
 const initialState: TypeWhiskeyReducer = {
   getFavoriteWhiskeyXferStatus: apiXferInit(),
   whiskeyFavorites: initialWhiskeyFavorites,
+  getAllWhiskiesXferStatus: apiXferInit(),
+  whiskiesAll: [],
 };
 
 export default function whiskeyReducer(
@@ -53,10 +59,17 @@ export default function whiskeyReducer(
         };
       }
     }
-    case WHISKEY_GET_FAVORITE_FAILED: return {
-      ...state,
-      getFavoriteWhiskeyXferStatus: apiXferFailed(action.error),
-    };
+    case WHISKEY_GET_FAVORITE_FAILED: return { ...state, getFavoriteWhiskeyXferStatus: apiXferFailed(action.error) };
+
+    case WHISKEY_GET_ALL_REQUESTED: return { ...state, getAllWhiskiesXferStatus: apiXferRequested() }
+    case WHISKEY_GET_ALL_SUCCEEDED: {
+      return {
+        ...state,
+        getAllWhiskiesXferStatus: apiXferSucceeded(),
+        whiskiesAll: action.result,
+      }
+    }
+    case WHISKEY_GET_ALL_FAILED: return { ...state, getAllWhiskiesXferStatus: apiXferFailed(action.error) }
     default:
       return state;
   }

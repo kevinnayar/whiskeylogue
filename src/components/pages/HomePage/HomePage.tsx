@@ -9,7 +9,11 @@ import BackgroundImage from '../../components-shared/BackgroundImage/BackgroundI
 import { FormInput, FormSubmit } from '../../components-shared/FormElements/FormElements';
 import { COLORS, HEADER_HEIGHT, transitionOneOnFocus } from '../../../assets/styles/vars';
 
-import { TypeAppState, TypeApiXferStatus, TypeWhiskeyHydrated } from '../../../types/baseTypes';
+import {
+  TypeAppState,
+  TypeApiXferStatus,
+  TypeFilters,
+} from '../../../types/baseTypes';
 import { TypeWhiskeyFavorites } from '../../../types/reducerWhiskeyTypes';
 
 const heroHeight = 460;
@@ -64,7 +68,7 @@ const WhiskyFavoritesList = styled.div`
 type TypeHomePageProps = {
   whiskeyFavorites: TypeWhiskeyFavorites;
   getFavoriteWhiskeyXferStatus: TypeApiXferStatus;
-  getFavoriteWhiskey: (type: string) => void;
+  getFavoriteWhiskey: (type: TypeFilters) => void;
 };
 
 class HomePage extends React.Component<TypeHomePageProps, {}> {
@@ -109,7 +113,6 @@ class HomePage extends React.Component<TypeHomePageProps, {}> {
   }
 }
 
-
 function mapStateToProps(state: TypeAppState) {
   return {
     getFavoriteWhiskeyXferStatus: state.whiskey.getFavoriteWhiskeyXferStatus,
@@ -119,7 +122,7 @@ function mapStateToProps(state: TypeAppState) {
 
 function mapDispatchToProps(dispatch: any) {
   return {
-    getFavoriteWhiskey: (type: string) => dispatch(getFavoriteWhiskey(type)),
+    getFavoriteWhiskey: (type: TypeFilters) => dispatch(getFavoriteWhiskey(type)),
   };
 }
 
