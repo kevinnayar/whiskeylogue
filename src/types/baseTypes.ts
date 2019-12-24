@@ -45,7 +45,7 @@ export type TypeWhiskeyBase = {
 
 export type TypeWhiskeyHydrated = TypeWhiskeyBase & {
   averageRating: number;
-  whiskeyId: string;
+  whiskyId: string;
   createdAt: firebase.firestore.Timestamp;
 };
 

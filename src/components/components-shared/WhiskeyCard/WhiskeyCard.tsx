@@ -152,8 +152,8 @@ function WhiskeyCard(props: TypeWhiskeyHydrated) {
   const slug = slugify(`${props.brand}-${props.name}`);
   return (
     <LinkWrapper
-      key={props.whiskeyId}
-      to={`/whiskies/${slug}`}
+      key={props.whiskyId}
+      to={`/whiskey/${slug}/${props.whiskyId}`}
     >
       <ImageWrapper>
         <CloudinaryImage

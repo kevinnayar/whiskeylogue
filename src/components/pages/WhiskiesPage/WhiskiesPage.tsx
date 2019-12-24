@@ -47,13 +47,13 @@ class WhiskiesPage extends React.Component<TypeWhiskiesPageProps, TypeWhiskiesPa
 
     const urlParams = new URLSearchParams(window.location.search);
     
-    let filters: TypeFilters[] = [];
+    const filters: TypeFilters[] = [];
     const filterParams: null | string = urlParams.get('filters');
     if (filterParams) {
       const split: string[] = filterParams.split(',');
       const values: string[] = split.map(v => v.charAt(0).toUpperCase() + v.slice(1));
-      // @ts-ignore: type-checked
-      if (values.every(v => this.allFilters.includes(v))) { filters = values }
+      // @ts-ignore: this is type-checked
+      if (values.every(v => this.allFilters.includes(v))) filters.push(values);
     }
 
     const state: TypeWhiskiesPageState = {
@@ -104,9 +104,7 @@ class WhiskiesPage extends React.Component<TypeWhiskiesPageProps, TypeWhiskiesPa
           onSorterChange={(sortBy: TypeSorters, sortDir: TypeSortersDirection) => this.handleSorterChange(sortBy, sortDir)}
         />
         <WhiskyList>
-          {this.props.whiskiesAll.map(whiskey => (
-            <WhiskeyCard {...whiskey} key={whiskey.whiskeyId} />
-          ))}
+          {this.props.whiskiesAll.map(whiskey => <WhiskeyCard {...whiskey} key={whiskey.whiskyId} />)}
         </WhiskyList>
       </Page>
     );

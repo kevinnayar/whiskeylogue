@@ -6,8 +6,12 @@ import {
   WHISKEY_GET_ALL_REQUESTED,
   WHISKEY_GET_ALL_SUCCEEDED,
   WHISKEY_GET_ALL_FAILED,
+  WHISKEY_GET_SELECTED_REQUESTED,
+  WHISKEY_GET_SELECTED_SUCCEEDED,
+  WHISKEY_GET_SELECTED_FAILED,
   TypeWhiskeyGetFavoriteDispatch,
   TypeWhiskeyGetAllDispatch,
+  TypeWhiskeyGetSelectedDispatch,
 } from '../../types/reducerWhiskeyTypes';
 import {
   TypeSorters,
@@ -59,6 +63,24 @@ async function handleGetWhiskeysAsync(
   return docs;
 }
 
+async function handleGetWhiskeyAsync(id: string): Promise<firebase.firestore.DocumentData> {
+  const itemRef: firebase.firestore.DocumentReference = firebase
+    .firestore()
+    .collection('whiskies')
+    .doc(id);
+
+  const doc: firebase.firestore.DocumentData = await itemRef
+    .get()
+    .then((snapshot: firebase.firestore.DocumentSnapshot) => {
+      const data: void | firebase.firestore.DocumentData = snapshot.data();
+      if (!data) {
+        throw new Error('Could not load whiskey');
+      }
+      return data;
+    });
+  return doc;
+}
+
 export function getFavoriteWhiskey(type: TypeFilters) {
   return async (dispatch: (action: TypeWhiskeyGetFavoriteDispatch) => void) => {
     dispatch({
@@ -66,10 +88,10 @@ export function getFavoriteWhiskey(type: TypeFilters) {
     });
 
     try {
-      const results = await handleGetWhiskeysAsync(undefined, undefined, [type], 1);
+      const result = await handleGetWhiskeysAsync(undefined, undefined, [type], 1);
       dispatch({
         type: WHISKEY_GET_FAVORITE_SUCCEEDED,
-        result: results[0],
+        result: result[0],
       });
     } catch (error) {
       dispatch({
@@ -100,6 +122,27 @@ export function getAllWhiskies(
     } catch (error) {
       dispatch({
         type: WHISKEY_GET_ALL_FAILED,
+        error,
+      });
+    }
+  }
+}
+
+export function getSelectedWhiskey(id: string) {
+  return async (dispatch: (action: TypeWhiskeyGetSelectedDispatch) => void) => {
+    dispatch({
+      type: WHISKEY_GET_SELECTED_REQUESTED,
+    });
+
+    try {
+      const result = await handleGetWhiskeyAsync(id);
+      dispatch({
+        type: WHISKEY_GET_SELECTED_SUCCEEDED,
+        result,
+      });
+    } catch (error) {
+      dispatch({
+        type: WHISKEY_GET_SELECTED_FAILED,
         error,
       });
     }
