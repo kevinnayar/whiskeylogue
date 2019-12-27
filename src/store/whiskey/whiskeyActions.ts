@@ -103,8 +103,8 @@ export function getFavoriteWhiskey(type: TypeFilters) {
 }
 
 export function getAllWhiskies(
-  sortBy: TypeSorters,
-  sortDir: TypeSortersDirection,
+  sortBy?: TypeSorters,
+  sortDir?: TypeSortersDirection,
   types?: TypeFilters[],
   limit?: number,
 ) {
