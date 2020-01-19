@@ -6,16 +6,19 @@ export const HEADER_HEIGHT = 80;
 export const RADIUS_LARGE = 20;
 export const RADIUS_SMALL = 4;
 
-export const FONTS = {
+export const fonts = {
   heading: `'Montserrat', 'Roboto', Helvetica, Arial, sans-serif`,
   body: `'Roboto', Helvetica, Arial, sans-serif`,
 };
 
-export const COLORS = {
-  primaryLight: '#48a2fa',
-  primaryMid: '#3466ff',
-  primaryDark: '#1a53ff',
+export const colors = {
+  blueLighter: '#48a2fa',
+  blueLight: '#3466ff',
+  blue: '#1a53ff',
 
+  tealLight: '#16f6ff',
+  teal: '#00d2da',
+  
   success: 'rgba(0, 128, 0, 1)',
   error: 'rgba(255, 0, 0, 1)',
   warning: 'rgba(255, 165, 0, 1)',
@@ -54,6 +57,6 @@ export const keyframesFadeRightFull = keyframes`
   100% { transform: translateX(0); opacity: 1; }
 `;
 
-export function transition(style: string = 'all', easing: string = CUBIC_BEZIER) {
-  return transitionStyles(style, easing);
+export function transition(clickable: boolean = true, style: string = 'all', easing: string = CUBIC_BEZIER) {
+  return transitionStyles(clickable, style, easing);
 }

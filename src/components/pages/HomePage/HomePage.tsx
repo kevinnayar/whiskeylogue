@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 import { getFavoriteWhiskey, getAllWhiskies } from '../../../store/whiskey/whiskeyActions';
 import { slugify, getMatchingResults } from '../../../utils/stringUtils';
@@ -9,11 +9,11 @@ import Page from '../../components-core/Page/Page';
 import WhiskeyCard from '../../components-shared/WhiskeyCard/WhiskeyCard';
 import BackgroundImage from '../../components-shared/BackgroundImage/BackgroundImage';
 import { FormInput, FormSubmit } from '../../components-shared/FormElements/FormElements';
+import IconText from '../../components-shared/IconText/IconText';
+import { SmallButton } from '../../components-shared/Buttons/Buttons';
 import {
-  COLORS,
-  FONTS,
+  colors,
   HEADER_HEIGHT,
-  RADIUS_SMALL,
   transition,
 } from '../../../assets/styles/vars';
 
@@ -40,7 +40,7 @@ const Text = styled.h1`
   font-size: 32px;
 `;
 const HeroHeaderText = styled(Text)`
-  color: ${COLORS.grayLighter};
+  color: ${colors.grayLighter};
 `;
 const HeaderText = styled(Text)`
   flex: 1 0 100%;
@@ -59,13 +59,13 @@ const CustomFormInput = styled(FormInput)`
   width: 80%;
   padding: 0 2%;
   font-size: 16px;
-  border: 2px solid ${COLORS.grayLight};
+  border: 2px solid ${colors.grayLight};
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 
-  ${transition()}
+  ${transition(false)}
   &:hover {
-    border-color: ${COLORS.grayLight};
+    border-color: ${colors.grayLight};
   }
 `;
 
@@ -79,24 +79,8 @@ const CustomFormSubmit = styled(FormSubmit)`
   border-bottom-left-radius: 0;
 `;
 
-const SeeAllLink = styled(Link)`
-  margin: 40px auto 0;
-  text-align: center;
-  height: ${HEADER_HEIGHT * 0.5}px;
-  line-height: ${HEADER_HEIGHT * 0.5}px;
-  width: 120px;
-  font-family: ${FONTS.heading};
-  font-size: 14px;
-  font-weight: bold;
-  text-transform: uppercase;
-  background: ${COLORS.primaryLight};
-  color: white;
-  border-radius: ${RADIUS_SMALL}px;
-
-  ${transition()}
-  &:hover {
-    opacity: 0.8;
-  }
+const SeeAllLink = styled(SmallButton)`
+  margin: 80px auto -40px;
 `;
 
 const SearchWrapper = styled.div``;
@@ -104,16 +88,22 @@ const SearchResults = styled.div`
   position: absolute;
   left: 0;
   top: 61px;
-  background: ${COLORS.grayLighter};
+  background: ${colors.grayLighter};
   width: calc(80% + 6px);
 `;
+
 const SearchResult = styled.p`
   padding: 2%;
 
   ${transition()}
   &:hover {
-    background: ${COLORS.grayMid};
+    background: ${colors.grayMid};
   }
+`;
+
+const Icon = styled.i`
+  color: ${colors.error};
+  margin: 0 8px;
 `;
 
 const WhiskyFavoritesList = styled.div`
@@ -205,10 +195,10 @@ class HomePage extends React.Component<TypeHomePageProps, TypeHomePageState> {
     return (
       <Page>
         <Hero id="whiskey2" height={`${heroHeight}px`}>
-          <HeroHeaderText>What would you like to drink today?</HeroHeaderText>
+          <HeroHeaderText>Fancy a wee dram?</HeroHeaderText>
           <FormWrapper>
             <CustomFormInput tabIndex={1} onChange={this.handleSearchOnChange} />
-            <CustomFormSubmit tabIndex={2} type="submit" />
+            <CustomFormSubmit tabIndex={2} type="submit" value="Let's Go!" />
             <SearchWrapper>
               {this.state.searchResults.length > 0 && (
                 <SearchResults>
@@ -221,11 +211,17 @@ class HomePage extends React.Component<TypeHomePageProps, TypeHomePageState> {
               )}
             </SearchWrapper>
           </FormWrapper>
-          <SeeAllLink to="/whiskeys">See all</SeeAllLink>
+          <SeeAllLink to="/whiskeys">
+            <IconText text="See All" icon="local_bar" />
+          </SeeAllLink>
         </Hero>
 
         <WhiskyFavoritesList>
-          <HeaderText>Community Favorites</HeaderText>
+          <HeaderText>
+            <Icon className="material-icons">favorite</Icon>
+            Tippy Top Shelf
+            <Icon className="material-icons">favorite</Icon>
+          </HeaderText>
           {this.props.whiskeyFavorites.bourbon !== null && (
             <WhiskeyCard {...this.props.whiskeyFavorites.bourbon} />
           )}

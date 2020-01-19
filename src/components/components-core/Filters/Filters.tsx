@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import IconText from '../../components-shared/IconText/IconText';
-import { COLORS, HEADER_HEIGHT, transition } from '../../../assets/styles/vars';
+import { colors, HEADER_HEIGHT, transition } from '../../../assets/styles/vars';
 
 import {
   TypeFilter,
@@ -14,10 +14,10 @@ const Wrapper = styled.div`
   display: flex;
   position: relative;
   height: ${HEADER_HEIGHT}px;
-  background: ${COLORS.grayDarker};
+  background: ${colors.grayDarker};
 `;
 const FilterContent = styled.div`
-  color: ${COLORS.grayLight};
+  color: ${colors.grayLight};
   width: 50%;
   margin: 0 4%;
   display: flex;

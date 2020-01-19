@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom';
 // @ts-ignore no types for 'cloudinary-react'
 import { Image } from 'cloudinary-react';
 import {
-  COLORS,
+  colors,
   HEADER_HEIGHT,
   CUBIC_BEZIER,
-  FONTS,
+  fonts,
   keyframesFadeRightFull,
   transition,
 } from '../../../assets/styles/vars';
@@ -21,24 +21,27 @@ const Flex = styled.div`
   display: flex;
 `;
 
-const LinkWrapper = styled(Link)`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 16%;
   box-sizing: border-box;
   margin: 0 2% 4%;
   position: relative;
-  color: ${COLORS.grayDarker};
+  color: ${colors.grayDarker};
+`;
 
+const WrapperLink = styled(Wrapper)`
   ${transition()}
   &:hover {
     opacity: 0.9;
   }
 `;
+
 const ImageWrapper = styled.div`
   width: 13.32vw;
   height: 13.32vw;
-  background: ${COLORS.grayMidDark};
+  background: ${colors.grayMidDark};
   overflow: hidden;
 `;
 
@@ -50,14 +53,14 @@ const CloudinaryImage = styled(Image)`
 const Content = styled(Flex)`
   flex-direction: column;
   overflow: hidden;
-  background: ${COLORS.grayDarker};
-  color: ${COLORS.grayLighter};
+  background: ${colors.grayDarker};
+  color: ${colors.grayLighter};
 `;
 
 const Rating = styled(Flex)`
   width: 100%;
   height: ${HEADER_HEIGHT * 0.75}px;
-  border-bottom: 1px solid ${COLORS.grayDark};
+  border-bottom: 1px solid ${colors.grayDark};
 `;
 
 const RatingNumber = styled(Flex)`
@@ -65,7 +68,7 @@ const RatingNumber = styled(Flex)`
   padding: 10px 20px;
   box-sizing: border-box;
   align-content: center;
-  font-family: ${FONTS.heading};
+  font-family: ${fonts.heading};
   font-weight: bold;
   width: ${HEADER_HEIGHT * 1.25}px;
 `;
@@ -88,7 +91,7 @@ const RatingBarBg = styled.div`
   width: 100%;
   height: ${HEADER_HEIGHT * .25}px;
   margin-top: ${HEADER_HEIGHT * .25}px;
-  background: ${COLORS.grayMid};
+  background: ${colors.grayMid};
   position: relative;
   overflow: hidden;
 `;
@@ -99,7 +102,7 @@ const RatingBarFg = styled.div`
   left: 0;
   top: 0;
   height: ${HEADER_HEIGHT * .25}px;
-  background: ${COLORS.primaryDark};
+  background: ${colors.blue};
   animation: ${keyframesFadeRightFull} 0.6s ${CUBIC_BEZIER};
 `;
 
@@ -112,19 +115,19 @@ const Text = styled(Flex)`
 `;
 
 const TextBrand = styled.h1`
-  font-family: ${FONTS.heading};
+  font-family: ${fonts.heading};
   font-size: 18px;
   margin: 8px 0;
 `;
 
 const TextName = styled.h2`
-  font-family: ${FONTS.body};
+  font-family: ${fonts.body};
   font-size: 12px;
   font-weight: normal;
 `;
 
 const TextType = styled.p`
-  font-family: ${FONTS.body};
+  font-family: ${fonts.body};
   font-size: 12px;
   text-transform: uppercase;
   position: absolute;
@@ -133,8 +136,8 @@ const TextType = styled.p`
   z-index: 1;
   padding: 4px 8px;
   margin: 0;
-  color: ${COLORS.primaryDark};
-  background: ${COLORS.grayLighter};
+  color: ${colors.blue};
+  background: ${colors.grayLighter};
   font-weight: normal;
 `;
 
@@ -158,13 +161,34 @@ function WhiskeyCardRatingBars(props: { averageRating: number }) {
   );
 }
 
-function WhiskeyCard(props: TypeWhiskeyHydrated) {
-  const slug = slugify(`${props.brand}-${props.name}`);
+function WhiskeyWrapper(props: TypeWhiskeyHydrated & { children: any, clickable: boolean }) {
+  if (props.clickable) {
+    const slug = slugify(`${props.brand}-${props.name}`);
+    return (
+      <WrapperLink>
+        <Link
+          key={props.whiskyId}
+          to={`/whiskey/${slug}/${props.whiskyId}`}
+        >
+          {props.children}
+        </Link>
+      </WrapperLink>
+    );
+  }
+
   return (
-    <LinkWrapper
-      key={props.whiskyId}
-      to={`/whiskey/${slug}/${props.whiskyId}`}
-    >
+    <Wrapper>
+      {props.children}
+    </Wrapper>
+  );
+}
+
+function WhiskeyCard(props: TypeWhiskeyHydrated & { clickable?: boolean }) {
+  const clickable: boolean = props.clickable !== undefined ? props.clickable : true;
+  const slug = slugify(`${props.brand}-${props.name}`);
+
+  return (
+    <WhiskeyWrapper {...props} clickable={clickable}>
       <ImageWrapper>
         <CloudinaryImage
           cloudName="kevinnayar"
@@ -185,7 +209,7 @@ function WhiskeyCard(props: TypeWhiskeyHydrated) {
           <TextType>{props.type}</TextType>
         </Text>
       </Content>
-    </LinkWrapper>
+    </WhiskeyWrapper>
   );
 }
 

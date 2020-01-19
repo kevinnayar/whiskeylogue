@@ -140,7 +140,7 @@ function SignUpPage(props: TypeSignUpProps) {
             )}
           </FormErrorDiv>
 
-          <FormSubmit tabIndex={6} type="submit" />
+          <FormSubmit tabIndex={6} type="submit" value="Let's do this!" />
         </Form>
       </BackgroundImage>
     </Page>

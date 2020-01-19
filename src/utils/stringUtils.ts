@@ -53,8 +53,8 @@ export function getRegExPassword() {
   return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
 }
 
-export function transitionStyles(style: string, easing: string) {
-  return `cursor: pointer; transition: ${style} 0.3s ${easing};`;
+export function transitionStyles(clickable: boolean, style: string, easing: string) {
+  return `${clickable ? 'cursor: pointer; ' : ''}transition: ${style} 0.3s ${easing};`;
 }
 
 

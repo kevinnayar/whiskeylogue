@@ -46,6 +46,9 @@ describe('/src/utils/stringUtils', () => {
 
   test('transitionStyles', () => {
     const styleA: string = `cursor: pointer; transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);`;
-    expect(transitionStyles('opacity', 'cubic-bezier(0.4, 0.0, 0.2, 1)')).toEqual(styleA);
+    expect(transitionStyles(true, 'opacity', 'cubic-bezier(0.4, 0.0, 0.2, 1)')).toEqual(styleA);
+
+    const styleB: string = `transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);`;
+    expect(transitionStyles(false, 'opacity', 'cubic-bezier(0.4, 0.0, 0.2, 1)')).toEqual(styleB);
   });
 });

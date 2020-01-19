@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { COLORS, HEADER_HEIGHT, transition } from '../../../assets/styles/vars';
+import { colors, HEADER_HEIGHT, transition } from '../../../assets/styles/vars';
 
 const backgrounds = require('../../../assets/images/backgrounds/*.jpg');
 
@@ -10,7 +10,7 @@ const BackgroundImageWrapper = styled.div`
   left: 0;
   top: 0;
   background-size: cover;
-  background-color: ${COLORS.grayDarker};
+  background-color: ${colors.grayDarker};
   background-blend-mode: overlay;
   background-position: center center;
   display: flex;
@@ -35,12 +35,12 @@ const Text = styled.p`
   position: absolute;
   right: ${HEADER_HEIGHT / 4}px;
   bottom: ${HEADER_HEIGHT / 4}px;
-  color: ${COLORS.grayLight};
+  color: ${colors.grayLight};
   z-index: 1;
 `;
 
 const Link = styled.a`
-  color: ${COLORS.grayLight};
+  color: ${colors.grayLight};
   font-weight: bold;
   text-decoration: underline;
 

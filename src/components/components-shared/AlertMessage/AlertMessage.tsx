@@ -1,28 +1,28 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import IconText from '../IconText/IconText';
-import { COLORS, CUBIC_BEZIER, keyframesFadeIn } from '../../../assets/styles/vars';
+import { colors, CUBIC_BEZIER, keyframesFadeIn } from '../../../assets/styles/vars';
 
 export const Wrapper = styled.div`
-  margin: 5px 0;
+  margin: 5px;
   opacity: 0;
   transition: all 0.25s ${CUBIC_BEZIER};
   animation: ${keyframesFadeIn} 0.25s ${CUBIC_BEZIER} 0.25s forwards;
 `;
 
 export const AlertMessageError = styled(Wrapper)`
-  border-color: ${COLORS.error};
-  color: ${COLORS.error};
+  border-color: ${colors.error};
+  color: ${colors.error};
 `;
 
 export const AlertMessageSuccess = styled(Wrapper)`
-  border-color: ${COLORS.success};
-  color: ${COLORS.success};
+  border-color: ${colors.success};
+  color: ${colors.success};
 `;
 
 export const AlertMessageWarning = styled(Wrapper)`
-  border-color: ${COLORS.warning};
-  color: ${COLORS.warning};
+  border-color: ${colors.warning};
+  color: ${colors.warning};
 `;
 
 
@@ -32,17 +32,17 @@ function AlertMessage(props: {
 }) {
   let StyledAlertMessage = AlertMessageError;
   let icon: string = props.alertType;
-  let iconColor: string = COLORS.error;
+  let iconColor: string = colors.error;
 
   if (props.alertType === 'success') {
     StyledAlertMessage = AlertMessageSuccess;
     icon = 'check_circle';
-    iconColor = COLORS.success;
+    iconColor = colors.success;
   }
 
   if (props.alertType === 'warning') {
     StyledAlertMessage = AlertMessageWarning;
-    iconColor = COLORS.warning;
+    iconColor = colors.warning;
   }
 
   return (

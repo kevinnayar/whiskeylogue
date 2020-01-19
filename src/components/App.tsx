@@ -11,6 +11,7 @@ import SignUpPage from './pages/SignUpPage/SignUpPage';
 import LogOutPage from './pages/LogOutPage/LogOutPage';
 import WhiskeysPage from './pages/WhiskeysPage/WhiskeysPage';
 import WhiskeyPage from './pages/WhiskeyPage/WhiskeyPage';
+import ReviewWritePage from './pages/ReviewWritePage/ReviewWritePage';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -28,6 +29,7 @@ export default function App() {
           <Route path={routes.logout} component={LogOutPage} />
           <Route path={routes.whiskeys} exact component={WhiskeysPage} />
           <Route path={`${routes.whiskey}/:whiskeySlug/:whiskeyId`} component={WhiskeyPage} />
+          <Route path={`${routes.reviewWrite}/:whiskeySlug/:whiskeyId`} component={ReviewWritePage} />
         </Switch>
       </Wrapper>
     </BrowserRouter>

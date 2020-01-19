@@ -7,28 +7,24 @@ import { slugify } from '../../../utils/stringUtils';
 
 import Page from '../../components-core/Page/Page';
 import WhiskeyCard from '../../components-shared/WhiskeyCard/WhiskeyCard';
-import { LargeButton } from '../../components-shared/Buttons/Buttons';
+import { LargeButton, LargeButtonSecondary } from '../../components-shared/Buttons/Buttons';
 import { HEADER_HEIGHT } from '../../../assets/styles/vars';
 
-import {
-  TypeAppState,
-  TypeApiXferStatus,
-  TypeWhiskeyHydrated,
-} from '../../../types/baseTypes';
+import { TypeAppState, TypeApiXferStatus, TypeWhiskeyHydrated } from '../../../types/baseTypes';
 
 const WhiskyItem = styled.div`
-  margin: ${HEADER_HEIGHT * .75}px 8% 8% 8%;
+  margin: ${HEADER_HEIGHT * 0.75}px 8% 8% 8%;
   display: flex;
   flex-wrap: wrap;
 `;
 
-type TypeWhiskeyPageProps = RouteComponentProps & {
+type TypeReviewWritePageProps = RouteComponentProps & {
   getSelectedWhiskeyXferStatus: TypeApiXferStatus;
   whiskeySelected: null | TypeWhiskeyHydrated;
   getSelectedWhiskey: (id: string) => void;
 };
 
-class WhiskeyPage extends React.Component<TypeWhiskeyPageProps> {
+class ReviewWritePage extends React.Component<TypeReviewWritePageProps> {
   componentDidMount() {
     // @ts-ignore: params.whiskeyId does exist
     const id: string = this.props.match.params.whiskeyId || '';
@@ -47,9 +43,12 @@ class WhiskeyPage extends React.Component<TypeWhiskeyPageProps> {
           {this.props.getSelectedWhiskeyXferStatus.succeeded && this.props.whiskeySelected !== null && (
             <>
               <WhiskeyCard {...this.props.whiskeySelected} clickable={false} />
-              <LargeButton to={`/write-review/${slug}/${this.props.whiskeySelected.whiskyId}`}>
-                Write a review
+              <LargeButton to={`/submit-review/${slug}/${this.props.whiskeySelected.whiskyId}`}>
+                Submit
               </LargeButton>
+              <LargeButtonSecondary to="/" onClick={() => this.props.history.goBack()}>
+                Cancel
+              </LargeButtonSecondary>
             </>
           )}
         </WhiskyItem>
@@ -71,4 +70,4 @@ function mapDispatchToProps(dispatch: any) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WhiskeyPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewWritePage);

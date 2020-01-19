@@ -5,11 +5,11 @@ import { routes } from '../../../routes';
 
 import { Link } from 'react-router-dom';
 import IconText from '../../components-shared/IconText/IconText';
+import { SmallButton } from '../../components-shared/Buttons/Buttons';
 import {
-  COLORS,
-  FONTS,
+  colors,
+  fonts,
   HEADER_HEIGHT,
-  RADIUS_LARGE,
   transition,
 } from '../../../assets/styles/vars';
 
@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   position: relative;
   z-index: 1;
   height: ${HEADER_HEIGHT}px;
+  border-bottom: 1px solid ${colors.grayMid};
 `;
 
 const LogoLink = styled(Link)`
@@ -28,7 +29,7 @@ const LogoLink = styled(Link)`
   margin-left: 3%;
   height: ${HEADER_HEIGHT}px;
   line-height: ${HEADER_HEIGHT}px;
-  color: ${COLORS.primaryDark};
+  color: ${colors.blue};
   padding: 0 20px;
 
   ${transition()}
@@ -42,9 +43,8 @@ const Logo = styled.h1`
   padding: 0;
   margin: 0;
   height: ${HEADER_HEIGHT}px;
-  font-size: 28px;
-  font-weight: normal;
-  font-family: ${FONTS.heading};
+  font-size: 20px;
+  font-family: ${fonts.heading};
 `;
 
 const Links = styled.nav`
@@ -55,20 +55,11 @@ const Links = styled.nav`
   line-height: ${HEADER_HEIGHT / 2}px;
 `;
 
-const LinksLink = styled(Link)`
+const LinksLink = styled(SmallButton)`
   display: block;
   float: left;
   margin-left: 10px;
   padding: 0 20px;
-  border-radius: ${RADIUS_LARGE}px;
-  color: ${COLORS.primaryDark};
-
-  ${transition()}
-  &:hover {
-    opacity: 0.8;
-    background: ${COLORS.primaryLight};
-    color: ${COLORS.grayLight};
-  }
 `;
 
 function NavbarLogo(props: { title: string }) {

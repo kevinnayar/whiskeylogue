@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import {
-  FONTS,
-  COLORS,
+  fonts,
+  colors,
   HEADER_HEIGHT,
   RADIUS_SMALL,
   CUBIC_BEZIER,
@@ -14,7 +14,7 @@ export const Form = styled.form`
   align-self: center;
   margin: 0;
   padding: 2% 2.6%;
-  background: ${COLORS.grayLighter};
+  background: ${colors.grayLighter};
   border-radius: ${RADIUS_SMALL}px;
   min-width: 260px;
   animation: ${keyframesFadeUp} 0.25s ${CUBIC_BEZIER};
@@ -30,7 +30,7 @@ export const FormLabel = styled.label`
   height: ${HEADER_HEIGHT / 4}px;
   line-height: ${HEADER_HEIGHT / 4}px;
   font-size: 12px;
-  color: ${COLORS.grayDark};
+  color: ${colors.grayDark};
 `;
 
 export const FormInput = styled.input`
@@ -40,29 +40,28 @@ export const FormInput = styled.input`
   height: ${HEADER_HEIGHT / 2}px;
   line-height: ${HEADER_HEIGHT / 2}px;
   font-size: 12px;
-  border: 1px solid ${COLORS.grayLight};
-  color: ${COLORS.grayDark};
+  border: 1px solid ${colors.grayLight};
+  color: ${colors.grayDark};
   border-radius: ${RADIUS_SMALL}px;
 
-  ${transition()}
+  ${transition(false)}
   &:hover {
-    border-color: ${COLORS.grayMidDark};
+    border-color: ${colors.grayMidDark};
   }
 `;
 
 export const FormErrorDiv = styled.div`
-  position: absolute;
   font-size: 75%;
 `;
 
 export const FormSubmit = styled.input`
   margin-top: 10px;
   width: 100%;
-  font-family: ${FONTS.heading};
+  font-family: ${fonts.heading};
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
-  background: ${COLORS.primaryDark};
+  background: ${colors.blue};
   color: white;
   height: ${HEADER_HEIGHT * .67}px;
   line-height: ${HEADER_HEIGHT * .67}px;
@@ -72,6 +71,6 @@ export const FormSubmit = styled.input`
   
   ${transition()}
   &:hover {
-    background: ${COLORS.primaryMid};
+    background: ${colors.blueLight};
   }
 `;

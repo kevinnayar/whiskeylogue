@@ -93,7 +93,7 @@ function LogInPage(props: TypeLogInProps) {
             )}
           </FormErrorDiv>
 
-          <FormSubmit tabIndex={3} type="submit" />
+          <FormSubmit tabIndex={3} type="submit" value="Login" />
         </Form>
       </BackgroundImage>
     </Page>

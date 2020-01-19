@@ -4,7 +4,6 @@ import styled, { CSSObject } from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
 `;
 
 export const Icon = styled.i`
