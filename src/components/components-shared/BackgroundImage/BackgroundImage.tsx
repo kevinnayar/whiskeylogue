@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { COLORS, HEADER_HEIGHT, transitionOneOnHover } from '../../../assets/styles/vars';
+import { COLORS, HEADER_HEIGHT, transition } from '../../../assets/styles/vars';
 
 const backgrounds = require('../../../assets/images/backgrounds/*.jpg');
+
 const BackgroundImageWrapper = styled.div`
   position: absolute;
   width: 100%;
@@ -17,15 +18,19 @@ const BackgroundImageWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const BackgroundImageZero = styled(BackgroundImageWrapper)`
   background-image: url('${backgrounds.whiskey0}');
 `;
+
 const BackgroundImageOne = styled(BackgroundImageWrapper)`
   background-image: url('${backgrounds.whiskey1}');
 `;
+
 const BackgroundImageTwo = styled(BackgroundImageWrapper)`
   background-image: url('${backgrounds.whiskey2}');
 `;
+
 const Text = styled.p`
   position: absolute;
   right: ${HEADER_HEIGHT / 4}px;
@@ -33,11 +38,16 @@ const Text = styled.p`
   color: ${COLORS.grayLight};
   z-index: 1;
 `;
+
 const Link = styled.a`
   color: ${COLORS.grayLight};
   font-weight: bold;
   text-decoration: underline;
-  ${transitionOneOnHover('opacity', 0.7)}
+
+  ${transition()}
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 type TypeImageData = {

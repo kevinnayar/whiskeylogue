@@ -2,22 +2,22 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import IconText from '../../components-shared/IconText/IconText';
-import { COLORS, HEADER_HEIGHT, transitionOneOnHover } from '../../../assets/styles/vars';
+import { COLORS, HEADER_HEIGHT, transition } from '../../../assets/styles/vars';
 
 import {
-  TypeFilters,
-  TypeSorters,
-  TypeSortersDirection,
+  TypeFilter,
+  TypeSorter,
+  TypeSorterDirection,
 } from '../../../types/baseTypes';
 
 const Wrapper = styled.div`
   display: flex;
   position: relative;
   height: ${HEADER_HEIGHT}px;
-  background: ${COLORS.grayMid};
+  background: ${COLORS.grayDarker};
 `;
 const FilterContent = styled.div`
-  color: ${COLORS.grayDark};
+  color: ${COLORS.grayLight};
   width: 50%;
   margin: 0 4%;
   display: flex;
@@ -34,18 +34,22 @@ const FilterItems = styled.div`
 `;
 const FilterItem = styled.div`
   margin-right: 12px;
-  ${transitionOneOnHover('opacity', 0.6)}
+
+  ${transition()}
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 function Filters(props: {
-  filters: TypeFilters[],
-  sortBy: TypeSorters,
-  sortDir: TypeSortersDirection,
-  onFilterChange: (filter: TypeFilters) => void;
-  onSorterChange: (sortBy: TypeSorters, sortDir: TypeSortersDirection) => void;
+  filters: TypeFilter[],
+  sortBy: TypeSorter,
+  sortDir: TypeSorterDirection,
+  onFilterChange: (filter: TypeFilter) => void;
+  onSorterChange: (sortBy: TypeSorter, sortDir: TypeSorterDirection) => void;
 }) {
-  const allFilters: TypeFilters[] = ['Bourbon', 'Irish', 'Japanese', 'Rye', 'Scotch', 'Whiskey'];
-  const allSorts: Array<{sortBy: TypeSorters, sortDir: TypeSortersDirection, name: string}> = [
+  const allFilters: TypeFilter[] = ['Bourbon', 'Irish', 'Japanese', 'Rye', 'Scotch', 'Whiskey'];
+  const allSorts: Array<{sortBy: TypeSorter, sortDir: TypeSorterDirection, name: string}> = [
     { sortBy: 'averageRating', sortDir: 'desc', name: 'Highest Rated' },
     { sortBy: 'averageRating', sortDir: 'asc',  name: 'Lowest Rated' },
     { sortBy: 'age',           sortDir: 'desc', name: 'Oldest to newest' },

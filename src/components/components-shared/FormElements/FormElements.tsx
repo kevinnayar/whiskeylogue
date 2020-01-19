@@ -7,8 +7,7 @@ import {
   RADIUS_SMALL,
   CUBIC_BEZIER,
   keyframesFadeUp,
-  transitionOneOnHover,
-  transitionOneOnFocus,
+  transition,
 } from '../../../assets/styles/vars';
 
 export const Form = styled.form`
@@ -44,7 +43,11 @@ export const FormInput = styled.input`
   border: 1px solid ${COLORS.grayLight};
   color: ${COLORS.grayDark};
   border-radius: ${RADIUS_SMALL}px;
-  ${transitionOneOnFocus('border-color', COLORS.grayMidDark)}
+
+  ${transition()}
+  &:hover {
+    border-color: ${COLORS.grayMidDark};
+  }
 `;
 
 export const FormErrorDiv = styled.div`
@@ -66,5 +69,9 @@ export const FormSubmit = styled.input`
   border: none;
   outline: none;
   border-radius: ${RADIUS_SMALL}px;
-  ${transitionOneOnHover('background', COLORS.primaryLight)}
+  
+  ${transition()}
+  &:hover {
+    background: ${COLORS.primaryMid};
+  }
 `;

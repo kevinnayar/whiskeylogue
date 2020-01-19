@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-// @ts-ignore ¯\_(ツ)_/¯ idk
 import queryString from 'query-string';
 import styled from 'styled-components';
 import { RouteComponentProps } from 'react-router-dom';
@@ -15,9 +14,9 @@ import {
   TypeAppState,
   TypeApiXferStatus,
   TypeWhiskeyHydrated,
-  TypeFilters,
-  TypeSorters,
-  TypeSortersDirection,
+  TypeFilter,
+  TypeSorter,
+  TypeSorterDirection,
 } from '../../../types/baseTypes';
 
 const WhiskyList = styled.div`
@@ -30,46 +29,48 @@ type TypeWhiskeysPageProps = RouteComponentProps & {
   whiskiesAll: TypeWhiskeyHydrated[],
   getAllWhiskiesXferStatus: TypeApiXferStatus,
   getAllWhiskies: (
-    sortBy: TypeSorters,
-    sortDir: TypeSortersDirection,
-    types?: TypeFilters[]
+    sortBy: TypeSorter,
+    sortDir: TypeSorterDirection,
+    filters?: TypeFilter[]
   ) => void;
 };
 
 type TypeWhiskeysPageState = {
-  filters: TypeFilters[];
-  sortBy: TypeSorters;
-  sortDir: TypeSortersDirection;
+  filters: TypeFilter[];
+  sortBy: TypeSorter;
+  sortDir: TypeSorterDirection;
 };
 
 class WhiskeysPage extends React.Component<TypeWhiskeysPageProps, TypeWhiskeysPageState> {
-  allFilters: TypeFilters[] = ['Bourbon', 'Irish', 'Japanese', 'Rye', 'Scotch', 'Whiskey'];
-  allSorters: TypeSorters[] = ['age', 'averageRating', 'price'];
-  allSorterDirections: TypeSortersDirection[] = ['asc', 'desc'];
+  allFilters: TypeFilter[] = ['Bourbon', 'Irish', 'Japanese', 'Rye', 'Scotch', 'Whiskey'];
+  allSorters: TypeSorter[] = ['age', 'averageRating', 'price'];
+  allSorterDirections: TypeSorterDirection[] = ['asc', 'desc'];
 
   constructor(props: TypeWhiskeysPageProps) {
     super(props);
 
     const parsed = queryString.parse(props.location.search, { arrayFormat: 'comma' });
 
-    const filters: TypeFilters[] = [];
+    const filters: TypeFilter[] = [];
     if (parsed.filters) {
-      const filterValues: TypeFilters[] = Array.isArray(parsed.filters)
-        ? parsed.filters.map((f: string) => f.charAt(0).toUpperCase() + f.slice(1))
-        : [parsed.filters.charAt(0).toUpperCase() + parsed.filters.slice(1)];
+      const filterValues: TypeFilter[] = Array.isArray(parsed.filters)
+        ? (parsed.filters.map((f: string) => f.charAt(0).toUpperCase() + f.slice(1)) as TypeFilter[])
+        : ([parsed.filters.charAt(0).toUpperCase() + parsed.filters.slice(1)] as TypeFilter[]);
 
       if (filterValues.every(v => this.allFilters.includes(v))) {
         filters.push(...filterValues);
       }
     }
-    
-    const sortBy: TypeSorters = parsed.sortBy && this.allSorters.includes(parsed.sortBy)
-      ? parsed.sortBy
-      : 'averageRating';
 
-    const sortDir: TypeSortersDirection = parsed.sortDir && this.allSorterDirections.includes(parsed.sortDir)
-      ? parsed.sortDir
-      : 'desc';
+    let sortBy: TypeSorter = 'averageRating';
+    if (parsed.sortBy && typeof parsed.sortBy === 'string' && this.allSorters.includes(parsed.sortBy as TypeSorter)) {
+      sortBy = parsed.sortBy as TypeSorter;
+    }
+
+    let sortDir: TypeSorterDirection = 'desc';
+    if (parsed.sortDir && typeof parsed.sortDir === 'string' && this.allSorterDirections.includes(parsed.sortDir as TypeSorterDirection)) {
+      sortDir = parsed.sortDir as TypeSorterDirection;
+    }
 
     const state: TypeWhiskeysPageState = {
       filters,
@@ -80,20 +81,29 @@ class WhiskeysPage extends React.Component<TypeWhiskeysPageProps, TypeWhiskeysPa
     this.state = state;
   }
 
-  handleGetAllWhiskies = (sortBy: TypeSorters, sortDir: TypeSortersDirection, filters: TypeFilters[]) => {
-    if (filters.length !== 0 || filters.length !== this.allFilters.length) {
-      this.props.getAllWhiskies(sortBy, sortDir, filters);
-    } else {
-      this.props.getAllWhiskies(sortBy, sortDir);
-    }
-  }
-  
   componentDidMount() {
     this.handleGetAllWhiskies(this.state.sortBy, this.state.sortDir, this.state.filters);
   }
 
-  handleFilterChange = (filter: TypeFilters) => {
-    const filters: TypeFilters[] = this.state.filters.includes(filter)
+  handleGetAllWhiskies = (sortBy: TypeSorter, sortDir: TypeSorterDirection, filters: TypeFilter[]) => {
+    if (filters.length !== 0 || filters.length !== this.allFilters.length) {
+      this.props.getAllWhiskies(sortBy, sortDir, filters);
+      this.updateUrlParams(sortBy, sortDir, filters);
+    } else {
+      this.props.getAllWhiskies(sortBy, sortDir);
+      this.updateUrlParams(sortBy, sortDir);
+    }
+  }
+  
+  updateUrlParams = (sortBy: TypeSorter, sortDir: TypeSorterDirection, filters?: TypeFilter[]) => {
+    const search: string = `?sortBy=${sortBy}&sortDir=${sortDir}${
+      filters && filters.length > 0 ? `&filters=${filters.join()}` : ''
+    }`;
+    this.props.history.push({ search });
+  }
+
+  handleFilterChange = (filter: TypeFilter) => {
+    const filters: TypeFilter[] = this.state.filters.includes(filter)
       ? this.state.filters.filter(f => f !== filter)
       : [...this.state.filters, filter];
 
@@ -104,7 +114,7 @@ class WhiskeysPage extends React.Component<TypeWhiskeysPageProps, TypeWhiskeysPa
     this.handleGetAllWhiskies(this.state.sortBy, this.state.sortDir, filters);
   };
 
-  handleSorterChange = (sortBy: TypeSorters, sortDir: TypeSortersDirection) => {
+  handleSorterChange = (sortBy: TypeSorter, sortDir: TypeSorterDirection) => {
     this.setState({
       sortBy,
       sortDir,
@@ -118,10 +128,10 @@ class WhiskeysPage extends React.Component<TypeWhiskeysPageProps, TypeWhiskeysPa
       <Page>
         <Filters
           filters={this.state.filters}
-          onFilterChange={(filter: TypeFilters) => this.handleFilterChange(filter)}
+          onFilterChange={(filter: TypeFilter) => this.handleFilterChange(filter)}
           sortBy={this.state.sortBy}
           sortDir={this.state.sortDir}
-          onSorterChange={(sortBy: TypeSorters, sortDir: TypeSortersDirection) =>
+          onSorterChange={(sortBy: TypeSorter, sortDir: TypeSorterDirection) =>
             this.handleSorterChange(sortBy, sortDir)
           }
         />
@@ -145,10 +155,10 @@ function mapStateToProps(state: TypeAppState) {
 function mapDispatchToProps(dispatch: any) {
   return {
     getAllWhiskies: (
-      sortBy: TypeSorters,
-      sortDir: TypeSortersDirection,
-      types?: TypeFilters[]
-    ) => dispatch(getAllWhiskies(sortBy, sortDir, types)),
+      sortBy: TypeSorter,
+      sortDir: TypeSorterDirection,
+      filters?: TypeFilter[]
+    ) => dispatch(getAllWhiskies(sortBy, sortDir, filters)),
   };
 }
 

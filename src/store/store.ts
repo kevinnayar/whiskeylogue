@@ -7,7 +7,6 @@ import { TypeAppState, TypeAppDispatch } from '../types/baseTypes';
 
 
 function configureStore(middleware: any[]) {
-  // @ts-ignore: logout clears all state except 'auth'; not typed
   const store: Store<TypeAppState, TypeAppDispatch> = createStore(rootReducer, compose(...middleware));
   // @ts-ignore: verifyAuth() always returns an action with 'type'
   store.dispatch(verifyAuth());
@@ -22,7 +21,5 @@ const middleware = [
 ];
 
 const store: Store<TypeAppState, TypeAppDispatch> = configureStore(middleware);
-
-
 
 export default store;

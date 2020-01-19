@@ -101,7 +101,6 @@ export default function authReducer(
     }
     case AUTH_LOGOUT_FAILED: return { ...state, logOutXferStatus: apiXferFailed(action.error) };
 
-
     case AUTH_GET_USER_REQUESTED: return { ...state, getUserXferStatus: apiXferRequested() };
     case AUTH_GET_USER_SUCCEEDED: {
       return {
@@ -116,7 +115,6 @@ export default function authReducer(
       user: null,
     }
 
-    default:
-      return state;
+    default: return state;
   }
 };

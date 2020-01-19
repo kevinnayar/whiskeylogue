@@ -5,7 +5,13 @@ import { routes } from '../../../routes';
 
 import { Link } from 'react-router-dom';
 import IconText from '../../components-shared/IconText/IconText';
-import { COLORS, FONTS, HEADER_HEIGHT, RADIUS_LARGE, transitionOneOnHover } from '../../../assets/styles/vars';
+import {
+  COLORS,
+  FONTS,
+  HEADER_HEIGHT,
+  RADIUS_LARGE,
+  transition,
+} from '../../../assets/styles/vars';
 
 import { TypeAppState, TypeApiXferStatus, TypeUserHydrated } from '../../../types/baseTypes';
 
@@ -14,7 +20,6 @@ const Wrapper = styled.div`
   position: relative;
   z-index: 1;
   height: ${HEADER_HEIGHT}px;
-  background: ${COLORS.primaryDark};
 `;
 
 const LogoLink = styled(Link)`
@@ -23,9 +28,13 @@ const LogoLink = styled(Link)`
   margin-left: 3%;
   height: ${HEADER_HEIGHT}px;
   line-height: ${HEADER_HEIGHT}px;
-  color: ${COLORS.grayLighter};
+  color: ${COLORS.primaryDark};
   padding: 0 20px;
-  ${transitionOneOnHover('background', COLORS.primaryLight)}
+
+  ${transition()}
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const Logo = styled.h1`
@@ -35,7 +44,7 @@ const Logo = styled.h1`
   height: ${HEADER_HEIGHT}px;
   font-size: 28px;
   font-weight: normal;
-  font-family: ${FONTS.branding};
+  font-family: ${FONTS.heading};
 `;
 
 const Links = styled.nav`
@@ -52,8 +61,14 @@ const LinksLink = styled(Link)`
   margin-left: 10px;
   padding: 0 20px;
   border-radius: ${RADIUS_LARGE}px;
-  color: ${COLORS.grayLighter};
-  ${transitionOneOnHover('background', COLORS.primaryLight)}
+  color: ${COLORS.primaryDark};
+
+  ${transition()}
+  &:hover {
+    opacity: 0.8;
+    background: ${COLORS.primaryLight};
+    color: ${COLORS.grayLight};
+  }
 `;
 
 function NavbarLogo(props: { title: string }) {

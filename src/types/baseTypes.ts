@@ -50,9 +50,9 @@ export type TypeWhiskeyHydrated = TypeWhiskeyBase & {
 };
 
 // filters
-export type TypeSorters = 'age' | 'averageRating' | 'price';
-export type TypeSortersDirection = 'asc' | 'desc';
-export type TypeFilters = 'Bourbon' | 'Irish' | 'Japanese' | 'Rye' | 'Scotch' | 'Whiskey';
+export type TypeSorter = 'age' | 'averageRating' | 'price';
+export type TypeSorterDirection = 'asc' | 'desc';
+export type TypeFilter = 'Bourbon' | 'Irish' | 'Japanese' | 'Rye' | 'Scotch' | 'Whiskey';
 
 // reducer
 export type TypeBaseDispatch = {

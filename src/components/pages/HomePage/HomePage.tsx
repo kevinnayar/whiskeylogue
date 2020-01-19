@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 import { getFavoriteWhiskey, getAllWhiskies } from '../../../store/whiskey/whiskeyActions';
 import { slugify, getMatchingResults } from '../../../utils/stringUtils';
@@ -11,16 +11,17 @@ import BackgroundImage from '../../components-shared/BackgroundImage/BackgroundI
 import { FormInput, FormSubmit } from '../../components-shared/FormElements/FormElements';
 import {
   COLORS,
+  FONTS,
   HEADER_HEIGHT,
-  transitionOneOnFocus,
-  transitionOneOnHover,
+  RADIUS_SMALL,
+  transition,
 } from '../../../assets/styles/vars';
 
 import {
   TypeAppState,
   TypeApiXferStatus,
   TypeWhiskeyHydrated,
-  TypeFilters,
+  TypeFilter,
 } from '../../../types/baseTypes';
 import { TypeWhiskeyFavorites } from '../../../types/reducerWhiskeyTypes';
 
@@ -35,9 +36,15 @@ const Hero = styled(BackgroundImage)`
 `;
 
 const Text = styled.h1`
-  color: ${COLORS.grayLighter};
   margin: 0 auto 38px;
   font-size: 32px;
+`;
+const HeroHeaderText = styled(Text)`
+  color: ${COLORS.grayLighter};
+`;
+const HeaderText = styled(Text)`
+  flex: 1 0 100%;
+  text-align: center;
 `;
 
 const FormWrapper = styled.div`
@@ -55,7 +62,11 @@ const CustomFormInput = styled(FormInput)`
   border: 2px solid ${COLORS.grayLight};
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  ${transitionOneOnFocus('border-color', COLORS.grayMidDark)}
+
+  ${transition()}
+  &:hover {
+    border-color: ${COLORS.grayLight};
+  }
 `;
 
 const CustomFormSubmit = styled(FormSubmit)`
@@ -68,29 +79,53 @@ const CustomFormSubmit = styled(FormSubmit)`
   border-bottom-left-radius: 0;
 `;
 
+const SeeAllLink = styled(Link)`
+  margin: 40px auto 0;
+  text-align: center;
+  height: ${HEADER_HEIGHT * 0.5}px;
+  line-height: ${HEADER_HEIGHT * 0.5}px;
+  width: 120px;
+  font-family: ${FONTS.heading};
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: ${COLORS.primaryLight};
+  color: white;
+  border-radius: ${RADIUS_SMALL}px;
+
+  ${transition()}
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
 const SearchWrapper = styled.div``;
 const SearchResults = styled.div`
   position: absolute;
   left: 0;
-  top: 64px;
+  top: 61px;
   background: ${COLORS.grayLighter};
-  width: calc(80% - 29px);
-  border: 1px solid ${COLORS.grayMidDark};
+  width: calc(80% + 6px);
 `;
 const SearchResult = styled.p`
   padding: 2%;
-  ${transitionOneOnHover('background', COLORS.grayMid)}
+
+  ${transition()}
+  &:hover {
+    background: ${COLORS.grayMid};
+  }
 `;
 
 const WhiskyFavoritesList = styled.div`
   margin: ${heroHeight + (HEADER_HEIGHT * .75)}px 8% 8% 8%;
   display: flex;
+  flex-wrap: wrap;
 `;
 
 type TypeHomePageProps = RouteComponentProps & {
   whiskeyFavorites: TypeWhiskeyFavorites;
   getFavoriteWhiskeyXferStatus: TypeApiXferStatus;
-  getFavoriteWhiskey: (type: TypeFilters) => void;
+  getFavoriteWhiskey: (type: TypeFilter) => void;
   whiskiesAll: TypeWhiskeyHydrated[],
   getAllWhiskiesXferStatus: TypeApiXferStatus,
   getAllWhiskies: () => void;
@@ -170,7 +205,7 @@ class HomePage extends React.Component<TypeHomePageProps, TypeHomePageState> {
     return (
       <Page>
         <Hero id="whiskey2" height={`${heroHeight}px`}>
-          <Text>What would you like to drink today?</Text>
+          <HeroHeaderText>What would you like to drink today?</HeroHeaderText>
           <FormWrapper>
             <CustomFormInput tabIndex={1} onChange={this.handleSearchOnChange} />
             <CustomFormSubmit tabIndex={2} type="submit" />
@@ -178,10 +213,7 @@ class HomePage extends React.Component<TypeHomePageProps, TypeHomePageState> {
               {this.state.searchResults.length > 0 && (
                 <SearchResults>
                   {this.state.searchResults.map(result => (
-                    <SearchResult
-                      key={result}
-                      onClick={() => this.handleSearchResultSelection(result)}
-                    >
+                    <SearchResult key={result} onClick={() => this.handleSearchResultSelection(result)}>
                       {result}
                     </SearchResult>
                   ))}
@@ -189,9 +221,11 @@ class HomePage extends React.Component<TypeHomePageProps, TypeHomePageState> {
               )}
             </SearchWrapper>
           </FormWrapper>
+          <SeeAllLink to="/whiskeys">See all</SeeAllLink>
         </Hero>
 
         <WhiskyFavoritesList>
+          <HeaderText>Community Favorites</HeaderText>
           {this.props.whiskeyFavorites.bourbon !== null && (
             <WhiskeyCard {...this.props.whiskeyFavorites.bourbon} />
           )}
@@ -222,7 +256,7 @@ function mapStateToProps(state: TypeAppState) {
 
 function mapDispatchToProps(dispatch: any) {
   return {
-    getFavoriteWhiskey: (type: TypeFilters) => dispatch(getFavoriteWhiskey(type)),
+    getFavoriteWhiskey: (type: TypeFilter) => dispatch(getFavoriteWhiskey(type)),
     getAllWhiskies: () => dispatch(getAllWhiskies()),
   };
 }

@@ -1,7 +1,8 @@
 import {
   joinListAsPhrase,
   getMatchingResults,
-  slugify
+  slugify,
+  transitionStyles,
 } from './stringUtils';
 
 describe('/src/utils/stringUtils', () => {
@@ -41,5 +42,10 @@ describe('/src/utils/stringUtils', () => {
     expect(slugify('ABC   123')).toEqual('abc-123');
     expect(slugify('ãàáäâèéëêìíïîòóöôùúüûñç·/_,:;')).toEqual('aaaaaeeeeiiiioooouuuunc-');
     expect(slugify('ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÔÕÖÑÙÚÜÛ')).toEqual('aaaaaeeeeiiiiooooonuuuu');
+  });
+
+  test('transitionStyles', () => {
+    const styleA: string = `cursor: pointer; transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);`;
+    expect(transitionStyles('opacity', 'cubic-bezier(0.4, 0.0, 0.2, 1)')).toEqual(styleA);
   });
 });

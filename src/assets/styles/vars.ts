@@ -1,4 +1,5 @@
 import { keyframes } from 'styled-components';
+import { transitionStyles } from '../../utils/stringUtils';
 
 export const CUBIC_BEZIER = 'cubic-bezier(0.4, 0.0, 0.2, 1)';
 export const HEADER_HEIGHT = 80;
@@ -6,16 +7,14 @@ export const RADIUS_LARGE = 20;
 export const RADIUS_SMALL = 4;
 
 export const FONTS = {
-  branding: `'Pacifico', 'Times New Roman', serif`,
   heading: `'Montserrat', 'Roboto', Helvetica, Arial, sans-serif`,
   body: `'Roboto', Helvetica, Arial, sans-serif`,
 };
-export const COLORS = {
-  primaryLight: '#f7776e',
-  primaryDark: '#f44336',
 
-  secondaryLight: '#48a2fa', //'#3968f7',
-  secondaryDark: '#1a53ff',
+export const COLORS = {
+  primaryLight: '#48a2fa',
+  primaryMid: '#3466ff',
+  primaryDark: '#1a53ff',
 
   success: 'rgba(0, 128, 0, 1)',
   error: 'rgba(255, 0, 0, 1)',
@@ -55,24 +54,6 @@ export const keyframesFadeRightFull = keyframes`
   100% { transform: translateX(0); opacity: 1; }
 `;
 
-export function transitionOneOnHover(style: string, value: any): string {
-  return `
-    cursor: pointer;
-    transition: ${style} 0.3s ${CUBIC_BEZIER};
-
-    &:hover {
-      ${style}: ${value};
-    }
-  `;
+export function transition(style: string = 'all', easing: string = CUBIC_BEZIER) {
+  return transitionStyles(style, easing);
 }
-
-export function transitionOneOnFocus(style: string, value: any): string {
-  return `
-    transition: ${style} 0.3s ${CUBIC_BEZIER};
-
-    &:focus {
-      ${style}: ${value};
-    }
-  `;
-}
-

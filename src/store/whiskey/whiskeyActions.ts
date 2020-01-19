@@ -14,15 +14,15 @@ import {
   TypeWhiskeyGetSelectedDispatch,
 } from '../../types/reducerWhiskeyTypes';
 import {
-  TypeSorters,
-  TypeSortersDirection,
-  TypeFilters,
+  TypeSorter,
+  TypeSorterDirection,
+  TypeFilter,
 } from '../../types/baseTypes';
 
 async function handleGetWhiskeysAsync(
-  sortBy?: TypeSorters,
-  sortDir?: TypeSortersDirection,
-  types?: TypeFilters[],
+  sortBy?: TypeSorter,
+  sortDir?: TypeSorterDirection,
+  types?: TypeFilter[],
   limit?: number
 ): Promise<firebase.firestore.DocumentData[]> {
   let itemRef: firebase.firestore.Query<firebase.firestore.DocumentData>;
@@ -81,7 +81,7 @@ async function handleGetWhiskeyAsync(id: string): Promise<firebase.firestore.Doc
   return doc;
 }
 
-export function getFavoriteWhiskey(type: TypeFilters) {
+export function getFavoriteWhiskey(type: TypeFilter) {
   return async (dispatch: (action: TypeWhiskeyGetFavoriteDispatch) => void) => {
     dispatch({
       type: WHISKEY_GET_FAVORITE_REQUESTED,
@@ -103,9 +103,9 @@ export function getFavoriteWhiskey(type: TypeFilters) {
 }
 
 export function getAllWhiskies(
-  sortBy?: TypeSorters,
-  sortDir?: TypeSortersDirection,
-  types?: TypeFilters[],
+  sortBy?: TypeSorter,
+  sortDir?: TypeSorterDirection,
+  types?: TypeFilter[],
   limit?: number,
 ) {
   return async (dispatch: (action: TypeWhiskeyGetAllDispatch) => void) => {
